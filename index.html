@@ -381,40 +381,27 @@
     .se-body{flex:1;display:flex;overflow:hidden;}
     .se-main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;}
     .se-panel{flex:1;overflow-y:auto;padding:12px;display:none;}.se-panel.show{display:block;}
-    #seForm{display:none;flex-direction:row;padding:0;overflow:hidden;}
-    #seForm.show{display:flex;}
-    .se-fl{width:280px;flex-shrink:0;padding:12px;overflow-y:auto;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;gap:6px;}
-    .se-fl textarea{height:120px;min-height:80px;max-height:220px;resize:vertical;font-size:.83rem;line-height:1.5;border:1px solid #d1d5db;border-radius:7px;padding:7px 9px;outline:none;width:100%;flex:none;}
-    .se-fl textarea:focus{border-color:#6c5ce7;}
-    .se-fl .slb{font-size:.68rem;font-weight:700;color:#94a3b8;}
-    .se-fl .hid-toggle{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:.75rem;font-weight:600;color:#6c5ce7;cursor:pointer;user-select:none;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:7px;padding:7px 10px;transition:all .15s;}
-    .se-fl .hid-toggle:hover{background:#ede9fe;border-color:#c4b5fd;}
-    .se-fl .hid-toggle.open{background:#6c5ce7;color:#fff;border-color:#6c5ce7;}
-    .se-fl .hid-toggle .arw{font-size:.65rem;transition:transform .2s;}
-    .se-fl .hid-toggle.open .arw{transform:rotate(180deg);}
-    .se-fl .hid-box{display:none;}.se-fl .hid-box.show{display:block;}
-    .se-fl .hid-box textarea{height:70px;min-height:50px;max-height:140px;border-color:#dcd6f7;background:#f8f7ff;}
-    .se-btn{padding:7px;border-radius:7px;font-size:.82rem;font-weight:700;width:100%;cursor:pointer;border:none;}
-    .se-btn-add{background:#6c5ce7;color:#fff;}.se-btn-apply{background:#10b981;color:#fff;}
-    .se-fr{flex:1;padding:12px;overflow-y:auto;min-width:0;}
-    .se-fr .slb{font-size:.68rem;font-weight:700;color:#94a3b8;margin-bottom:5px;display:flex;align-items:center;gap:4px;}
-    .se-fr .slb .badge{background:#6c5ce7;color:#fff;font-size:.58rem;padding:1px 5px;border-radius:8px;}
-    .se-slist{display:flex;flex-direction:column;gap:3px;}
-    .se-sline{display:flex;align-items:flex-start;gap:5px;padding:6px 9px;background:#fff;border-radius:7px;border:1px solid #e5e7eb;cursor:grab;font-size:.8rem;}
-    .se-sline:hover{border-color:#6c5ce7;}
-    .se-sline.dragging{opacity:.4;}.se-sline.drag-over{border-color:#6c5ce7;border-style:dashed;background:#f5f3ff;}
-    .se-sline .grip{color:#cbd5e1;cursor:grab;}
-    .se-sline .lc{font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:9px;white-space:nowrap;flex-shrink:0;}
-    .se-sline .lt{flex:1;color:#334155;line-height:1.4;word-break:break-all;}
-    .se-sline .lt .et{color:#94a3b8;font-size:.72rem;font-style:italic;}
-    .se-sline .lt .ht{color:#6c5ce7;font-size:.7rem;}
-    .se-sline .la{display:flex;gap:2px;flex-shrink:0;}
-    .se-sline .la button{width:20px;height:20px;border-radius:4px;font-size:.6rem;display:flex;align-items:center;justify-content:center;background:#f1f5f9;color:#64748b;border:none;cursor:pointer;}
-    .se-sline .la .be:hover{background:#ede9fe;color:#6c5ce7;}
-    .se-sline .la button:not(.be):hover{background:#fee2e2;color:#dc2626;}
-    #seDragWs{font-size:.88rem;line-height:1.8;outline:none;white-space:pre-wrap;word-break:break-all;min-height:300px;}
-    #seDragWs:empty::before{content:'대본을 쓰거나 붙여넣으세요…\A텍스트 드래그 선택 → 캐릭터 칩 클릭';color:#94a3b8;white-space:pre-wrap;pointer-events:none;}
-    .se-tagged{border-radius:4px;padding:1px 4px 1px 3px;position:relative;cursor:default;white-space:pre-wrap;}
+    #seForm{display:none;padding:12px;overflow-y:auto;}
+    #seForm.show{display:block;}
+    #seFormWs{display:flex;flex-direction:column;gap:5px;max-width:640px;margin:0 auto;}
+    .fl-row{display:flex;align-items:flex-start;gap:6px;}
+    .fl-row.dragging{opacity:.4;}
+    .fl-row.drag-over{outline:2px dashed #6c5ce7;outline-offset:2px;border-radius:8px;}
+    .fl-grip{color:#cbd5e1;cursor:grab;user-select:none;padding-top:6px;font-size:.8rem;}
+    .fl-label{flex-shrink:0;font-size:.72rem;font-weight:700;padding:5px 10px;border-radius:12px;cursor:pointer;white-space:nowrap;user-select:none;margin-top:1px;}
+    .fl-label:hover{opacity:.8;}
+    .fl-text{flex:1;min-width:0;border:1px solid #e5e7eb;border-radius:7px;padding:6px 10px;outline:none;line-height:1.5;white-space:pre-wrap;word-break:break-all;background:#fff;font-size:.85rem;}
+    .fl-text:focus{border-color:#6c5ce7;box-shadow:0 0 0 2px rgba(108,92,231,.1);}
+    .fl-hid{flex-shrink:0;margin-top:4px;font-size:.75rem;}
+    .fl-hidbtn,.fl-del{flex-shrink:0;width:24px;height:24px;border:none;background:#f1f5f9;color:#94a3b8;border-radius:6px;font-size:.7rem;cursor:pointer;margin-top:1px;}
+    .fl-hidbtn:hover{background:#ede9fe;color:#6c5ce7;}
+    .fl-del:hover{background:#fee2e2;color:#dc2626;}
+    .fl-add{margin-top:6px;background:#ede9fe;color:#6c5ce7;border:1px dashed #c4b5fd;border-radius:8px;padding:8px;font-size:.82rem;font-weight:600;cursor:pointer;width:100%;max-width:640px;}
+    .fl-add:hover{background:#ddd6fe;}
+    #seDragWs{font-size:.9rem;line-height:1.9;outline:none;white-space:pre-wrap;word-break:break-all;min-height:300px;max-width:680px;margin:0 auto;}
+    #seDragWs:empty::before{content:'대본을 쓰거나 붙여넣으세요…\A① 텍스트 드래그 → 뜨는 바에서 캐릭터 지정 (1회)\A② 한국어 줄 + 아래 외국어 줄을 함께 드래그하면 자동 병기\A③ 위 캐릭터 칩 선택 후, 블록들을 연달아 클릭하면 계속 변경';color:#94a3b8;white-space:pre-wrap;pointer-events:none;}
+    .se-tagged{border-radius:4px;padding:1px 4px 1px 3px;position:relative;cursor:pointer;white-space:pre-wrap;}
+    .se-tagged:hover{outline:2px solid rgba(108,92,231,.35);outline-offset:1px;}
     .se-tagged::before{content:attr(data-emoji);font-size:.62rem;opacity:.75;margin-right:3px;vertical-align:middle;user-select:none;-webkit-user-select:none;}
     .se-tagged:hover{opacity:.9;}
     .se-fbar{display:none;position:fixed;z-index:10001;background:#1e293b;border-radius:9px;padding:4px 5px;box-shadow:0 5px 16px rgba(0,0,0,.25);gap:3px;align-items:center;flex-wrap:wrap;max-width:300px;}
@@ -2053,19 +2040,7 @@ ${bodyIndented}
 </div>
 <div class="se-body">
 <div class="se-main">
-    <div id="seForm" class="show">
-        <div class="se-fl">
-            <div class="slb">대사 입력</div>
-            <textarea id="seFText" placeholder="대사를 입력하세요...&#10;영어 병기: 한국어&#10;-&#10;English"></textarea>
-            <div class="hid-toggle" onclick="SE.toggleHid(this)"><span>👆 숨김 내용 (선택)</span><span class="arw">▼</span></div>
-            <div class="hid-box"><textarea id="seFHidden" placeholder="마우스 올리면 나올 내용"></textarea></div>
-            <button class="se-btn se-btn-add" id="seFBtn" onclick="SE.formAdd()">＋ 추가</button>
-        </div>
-        <div class="se-fr">
-            <div class="slb">대본 목록 <span class="badge" id="seBadge">0</span></div>
-            <div class="se-slist" id="seSList"></div>
-        </div>
-    </div>
+    <div id="seForm" class="se-panel show"><div id="seFormWs"></div></div>
     <div id="seDrag" class="se-panel"><div id="seDragWs" contenteditable="true"></div></div>
     <div id="seText" class="se-panel"><textarea class="se-teditor" id="seTEdit" placeholder="나 : 대사 [hidden:숨김내용] [en:영어];"></textarea><button class="se-btn se-btn-apply" onclick="SE.textApply()" style="max-width:200px;margin-top:6px;">✓ 적용</button></div>
 </div>
@@ -2106,50 +2081,172 @@ const SE = (function(){
     function addChar(){const emoji=$('seAEmo').value.trim()||'👤',name=$('seANm').value.trim();if(!name)return;if(chars.find(c=>c.name===name))return;chars.push({name,emoji,color:COLORS[cIdx%COLORS.length]});cIdx++;$('seAEmo').value='';$('seANm').value='';renderChips();pickCharI(chars.length-1);}
     function rmChar(i,e){e.stopPropagation();chars.splice(i,1);curChar=null;curType='my';renderChips();}
     function renderChips(){let h='';chars.forEach((c,i)=>{h+='<span class="se-chip'+(curChar&&curChar.name===c.name?' on':'')+'" style="background:'+c.color+';color:#1e293b" onclick="SE.pickCharI('+i+')">'+c.emoji+' '+esc(c.name)+' <span class="dx" onclick="SE.rmChar('+i+',event)">✕</span></span>';});$('seCcSlot').innerHTML=h;}
-    function pick(t){curType=t;curChar=null;desel();const chips=document.querySelectorAll('#seCbar .se-chip');const map={my:0,narration:1,system:2,part:3};if(map[t]!==undefined&&chips[map[t]])chips[map[t]].classList.add('on');if(mode==='drag')doDragAssign(t);}
-    function pickCharI(i){curType='other';curChar=chars[i];desel();const all=document.querySelectorAll('#seCcSlot .se-chip');if(all[i])all[i].classList.add('on');if(mode==='drag')doDragAssign('other',chars[i].name);}
+    function pick(t){curType=t;curChar=null;desel();const chips=document.querySelectorAll('#seCbar .se-chip');const map={my:0,narration:1,system:2,part:3};if(map[t]!==undefined&&chips[map[t]])chips[map[t]].classList.add('on');if(mode==='form')formApplyToFocused();}
+    function pickCharI(i){curType='other';curChar=chars[i];desel();const all=document.querySelectorAll('#seCcSlot .se-chip');if(all[i])all[i].classList.add('on');if(mode==='form')formApplyToFocused();}
     function desel(){document.querySelectorAll('#seCbar .se-chip').forEach(c=>c.classList.remove('on'));}
     $('seANm').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addChar();}});
 
     function setMode(m){if(mode==='drag')syncFromDrag();else if(mode==='text')syncFromText();mode=m;document.querySelectorAll('.se-tab').forEach((t,i)=>t.classList.toggle('on',['form','drag','text'][i]===m));$('seForm').classList.toggle('show',m==='form');$('seDrag').classList.toggle('show',m==='drag');$('seText').classList.toggle('show',m==='text');$('seRow2').classList.toggle('mode-text',m==='text');if(m==='form')renderFormList();else if(m==='drag')renderDrag();else $('seTEdit').value=buildTxt();updatePv();}
 
-    function formAdd(){const raw=$('seFText').value;if(!raw.trim())return;const{ko,en}=splitBi(raw);const hidEl=document.getElementById('seFHidden');const hid=(hidEl&&hidEl.value)?hidEl.value.trim():'';const name=(curType==='other'&&curChar)?curChar.name:'';if(editIdx>=0){lines[editIdx]={type:curType,name,text:ko,en,hidden:hid};editIdx=-1;$('seFBtn').textContent='＋ 추가';}else lines.push({type:curType,name,text:ko,en,hidden:hid});$('seFText').value='';if(hidEl){hidEl.value='';setHidOpen(false);}renderFormList();updatePv();}
-    function formEdit(i){const l=lines[i];if(l.type==='other'){const ci=chars.findIndex(c=>c.name===l.name);if(ci>=0)pickCharI(ci);else pick('my');}else pick(l.type);$('seFText').value=l.en?(l.text+'\n-\n'+l.en):l.text;const hidEl=$('seFHidden');if(hidEl){hidEl.value=l.hidden||'';setHidOpen(!!l.hidden);}editIdx=i;$('seFBtn').textContent='✓ 수정';$('seFText').focus();renderChips();}
-    function formDel(i){lines.splice(i,1);renderFormList();updatePv();}
-    function renderFormList(){const sl=$('seSList');$('seBadge').textContent=lines.length;$('seCount').textContent=lines.length;if(!lines.length){sl.innerHTML='<div class="se-empty">📄 캐릭터를 선택하고 대사를 추가해보세요!</div>';return;}let h='';lines.forEach((l,i)=>{const{label,style}=lineLabel(l);const eH=l.en?'<div class="et">'+esc(l.en)+'</div>':'';const hH=l.hidden?'<div class="ht">👆 '+esc(l.hidden.substring(0,30))+(l.hidden.length>30?'…':'')+'</div>':'';h+='<div class="se-sline" draggable="true" data-i="'+i+'" ondragstart="SE.fds(event,'+i+')" ondragover="event.preventDefault()" ondragenter="SE.fde(event,'+i+')" ondragleave="event.currentTarget.classList.remove(\'drag-over\')" ondrop="SE.fdd(event,'+i+')" ondragend="SE.fdx()"><span class="grip">⠿</span><span class="lc" style="'+style+'">'+label+'</span><div class="lt">'+esc(l.text)+eH+hH+'</div><div class="la"><button class="be" onclick="SE.formEdit('+i+')">✎</button><button onclick="SE.formDel('+i+')">✕</button></div></div>';});sl.innerHTML=h;}
-    function lineLabel(l){if(l.type!=='other'){const s=TS[l.type];return{label:s.e+' '+s.l,style:'background:'+s.bg+';color:'+s.c};}const ch=chars.find(c=>c.name===l.name);return{label:(ch?ch.emoji:'👤')+' '+(l.name||'?'),style:'background:'+(ch?ch.color:'#f1f5f9')+';color:#1e293b'};}
+
+    // ============ 폼 모드 (줄 단위 편집) ============
+    // lines를 그대로 줄 단위 UI로 그린다. 각 줄: 라벨칩 + 편집칸 + 삭제.
+    function renderFormList(){ drawFormWs(); }
+    function drawFormWs(){
+        const box=$('seFormWs'); if(!box)return;
+        $('seBadge')&&($('seBadge').textContent=lines.length);
+        $('seCount').textContent=lines.length;
+        let h='';
+        if(!lines.length){
+            h='<div class="se-empty" style="padding:18px;">캐릭터를 고른 뒤 아래 ＋로 대사를 추가하세요.</div>';
+        } else {
+            lines.forEach((l,i)=>{
+                const s=l.type==='other'?gcs(l.name):TS[l.type];
+                const label=(l.type==='other')?((chars.find(c=>c.name===l.name)?.emoji||'👤')+' '+(l.name||'?')):(TS[l.type].e+' '+TS[l.type].l);
+                const disp=l.en?(l.text+'\n-\n'+l.en):l.text;
+                const hidBadge=l.hidden?'<span class="fl-hid" title="숨김: '+esc(l.hidden)+'">👆</span>':'';
+                h+='<div class="fl-row" draggable="true" data-i="'+i+'" ondragstart="SE.fds(event,'+i+')" ondragover="event.preventDefault()" ondragenter="SE.fde(event,'+i+')" ondragleave="event.currentTarget.classList.remove(\'drag-over\')" ondrop="SE.fdd(event,'+i+')" ondragend="SE.fdx()">'
+                  +'<span class="fl-grip">⠿</span>'
+                  +'<span class="fl-label" style="background:'+s.bg+';color:'+(s.c||'#1e293b')+'" onclick="SE.flSetType('+i+')" title="현재 선택된 캐릭터로 변경">'+label+'</span>'
+                  +'<div class="fl-text" contenteditable="true" data-i="'+i+'" oninput="SE.flEdit('+i+',this)" onkeydown="SE.flKey(event,'+i+')">'+esc(disp).replace(/\n/g,'<br>')+'</div>'
+                  +hidBadge
+                  +'<button class="fl-hidbtn" onclick="SE.flHid('+i+')" title="숨김 내용 편집">🙈</button>'
+                  +'<button class="fl-del" onclick="SE.formDel('+i+')" title="삭제">✕</button>'
+                  +'</div>';
+            });
+        }
+        h+='<button class="fl-add" onclick="SE.flAdd()">＋ 대사 추가</button>';
+        box.innerHTML=h;
+    }
+    function gcs(name){const ch=chars.find(c=>c.name===name);return ch?{bg:ch.color,c:'#1e293b',e:ch.emoji}:{bg:'#f1f5f9',c:'#1e293b',e:'👤'};}
+    // 폼·텍스트 모드용: - 구분만 인식
+    function splitDash(raw){
+        raw=raw.replace(/\u200b/g,'');
+        const m=raw.match(/^([\s\S]*?)\n[ \t]*-[ \t]*\n([\s\S]*)$/);
+        if(m)return{ko:m[1].trim(),en:m[2].trim()};
+        const m2=raw.match(/^([\s\S]*?)\n[ \t]*-[ \t]*(.+)$/);
+        if(m2&&m2[2].trim())return{ko:m2[1].trim(),en:m2[2].trim()};
+        return{ko:raw.trim(),en:''};
+    }
+    // 드래그 모드용: 두 줄이면 첫 줄=한국어, 나머지=영어 (구분자 없음)
+    function splitDrag(raw){
+        raw=raw.replace(/\u200b/g,'');
+        const nl=raw.indexOf('\n');
+        if(nl!==-1){
+            const first=raw.slice(0,nl).trim();
+            const rest=raw.slice(nl+1).trim();
+            if(first&&rest)return{ko:first,en:rest};
+        }
+        return{ko:raw.trim(),en:''};
+    }
+    function flEdit(i,el){
+        const disp=el.innerText.replace(/\u200b/g,'');
+        const{ko,en}=splitDash(disp);
+        if(lines[i]){lines[i].text=ko;lines[i].en=en;}
+        updatePvOnly();
+    }
+    function flKey(e,i){
+        if(e.key==='Enter'&&!e.shiftKey){
+            e.preventDefault();
+            const name=(curType==='other'&&curChar)?curChar.name:'';
+            lines.splice(i+1,0,{type:curType,name,text:'',en:'',hidden:''});
+            drawFormWs();
+            const rows=$('seFormWs').querySelectorAll('.fl-text');
+            if(rows[i+1])rows[i+1].focus();
+            updatePvOnly();
+        }
+    }
+    function flAdd(){
+        const name=(curType==='other'&&curChar)?curChar.name:'';
+        lines.push({type:curType,name,text:'',en:'',hidden:''});
+        drawFormWs();
+        const rows=$('seFormWs').querySelectorAll('.fl-text');
+        if(rows.length)rows[rows.length-1].focus();
+        updatePvOnly();
+    }
+    function flSetType(i){
+        if(!lines[i])return;
+        lines[i].type=curType;
+        lines[i].name=(curType==='other'&&curChar)?curChar.name:'';
+        drawFormWs();updatePvOnly();
+    }
+    function flHid(i){
+        const cur=lines[i].hidden||'';
+        const v=prompt('마우스 올리면 나올 숨김 내용:',cur);
+        if(v!==null){lines[i].hidden=v.trim();drawFormWs();updatePvOnly();}
+    }
+    // 캐릭터 칩 클릭 시 폼 모드: 포커스된 줄에 성격 적용
+    function formApplyToFocused(){
+        const a=document.activeElement;
+        if(a&&a.classList&&a.classList.contains('fl-text')){
+            const i=+a.dataset.i;
+            if(!isNaN(i)&&lines[i]){lines[i].type=curType;lines[i].name=(curType==='other'&&curChar)?curChar.name:'';drawFormWs();updatePvOnly();return true;}
+        }
+        return false;
+    }
+    function formDel(i){lines.splice(i,1);drawFormWs();updatePvOnly();}
+    // 줄 순서 드래그(폼)
     function fds(e,i){dragSrc=i;e.currentTarget.classList.add('dragging');}
     function fde(e,i){e.preventDefault();if(i!==dragSrc)e.currentTarget.classList.add('drag-over');}
-    function fdd(e,i){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(dragSrc===i)return;const it=lines.splice(dragSrc,1)[0];lines.splice(i,0,it);renderFormList();updatePv();}
-    function fdx(){document.querySelectorAll('.se-sline').forEach(el=>el.classList.remove('dragging','drag-over'));dragSrc=-1;}
-    $('seFText').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();formAdd();}});
+    function fdd(e,i){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(dragSrc===i)return;const it=lines.splice(dragSrc,1)[0];lines.splice(i,0,it);drawFormWs();updatePvOnly();}
+    function fdx(){document.querySelectorAll('.fl-row').forEach(el=>el.classList.remove('dragging','drag-over'));dragSrc=-1;}
 
-    // 태그 span: 이모지 라벨과 삭제버튼을 CSS(::before/::after)로 표시.
-    // 실제 대사 텍스트만 자식 텍스트노드로 둔다 → 본문에 아이콘이 절대 안 섞임.
+    // ============ 드래그 모드 (자유 텍스트 + 선택 태그) ============
     function mkTagSpan(type,name,text){
         const s=type==='other'?gcs(name):TS[type];
         const span=document.createElement('span');
-        span.className='se-tagged';
-        span.dataset.type=type;span.dataset.name=name||'';
-        span.dataset.emoji=s.e;
-        span.style.backgroundColor=s.bg;span.style.color=s.c;
-        span.textContent=text; // 순수 텍스트만
-        // 편집 가능 (contenteditable 상속)
+        span.className='se-tagged';span.dataset.type=type;span.dataset.name=name||'';span.dataset.emoji=s.e;
+        span.style.backgroundColor=s.bg;span.style.color=s.c||'#1e293b';
+        span.textContent=text;
+        // 클릭하면 현재 선택된 캐릭터로 즉시 변경 (드래그 불필요)
+        span.addEventListener('click',function(ev){
+            // 텍스트 선택(드래그) 중이면 무시
+            const sel=window.getSelection();
+            if(sel&&!sel.isCollapsed)return;
+            ev.stopPropagation();
+            retagSpan(span);
+        });
         return span;
     }
+    function retagSpan(span){
+        const s=curType==='other'?gcs(curChar?curChar.name:''):TS[curType];
+        span.dataset.type=curType;
+        span.dataset.name=(curType==='other'&&curChar)?curChar.name:'';
+        span.dataset.emoji=s.e;
+        span.style.backgroundColor=s.bg;
+        span.style.color=s.c||'#1e293b';
+        syncFromDrag();updatePvOnly();
+    }
     function renderDrag(){
+        // lines → 자유 텍스트(태그 span) 로 그림. 한/영은 두 줄로.
         dws.innerHTML='';
-        lines.forEach((l,idx)=>{
-            const full=l.en?(l.text+'\n-\n'+l.en):l.text;
+        lines.forEach(l=>{
+            const full=l.en?(l.text+'\n'+l.en):l.text;
             dws.appendChild(mkTagSpan(l.type,l.name,full));
             dws.appendChild(document.createTextNode('\n'));
         });
     }
-    function gcs(name){const ch=chars.find(c=>c.name===name);return ch?{bg:ch.color,c:'#1e293b',e:ch.emoji}:{bg:'#f1f5f9',c:'#1e293b',e:'👤'};}
-
-    // 태그의 순수 텍스트 (dataset 아님, textContent가 곧 텍스트)
-    function tagText(t){return (t.textContent||'').replace(/\u200b/g,'');}
-
+    function tagInner(el){
+        let t='';
+        for(const ch of el.childNodes){
+            if(ch.nodeType===3)t+=ch.textContent;
+            else if(ch.nodeType===1){if(ch.tagName==='BR')t+='\n';else{if(t&&!t.endsWith('\n'))t+='\n';t+=tagInner(ch);}}
+        }
+        return t;
+    }
+    function syncFromDrag(){
+        const r=[];
+        (function walk(node){
+            for(const ch of node.childNodes){
+                if(ch.nodeType===1&&ch.classList&&ch.classList.contains('se-tagged')){
+                    const raw=tagInner(ch).replace(/\u200b/g,'').replace(/\n{2,}/g,'\n').trim();
+                    if(raw){const{ko,en}=splitDrag(raw);r.push({type:ch.dataset.type,name:ch.dataset.name||'',text:ko,en,hidden:''});}
+                } else if(ch.nodeType===1) walk(ch);
+            }
+        })(dws);
+        lines=r;
+    }
+    // 드래그 선택 → 플로팅 바로 캐릭터 지정
     document.addEventListener('mouseup',function(e){
         if(mode!=='drag')return;if(fb.contains(e.target))return;
         setTimeout(()=>{
@@ -2160,148 +2257,111 @@ const SE = (function(){
             let h='';
             for(const k in TS){const v=TS[k];h+='<span class="fc" style="background:'+v.bg+';color:'+v.c+'" onclick="SE.doFA(\''+k+'\')">'+v.e+' '+v.l+'</span>';}
             chars.forEach(c2=>{h+='<span class="fc" style="background:'+c2.color+';color:#1e293b" onclick="SE.doFA(\'other\',\''+c2.name.replace(/'/g,"\\'")+'\')">' +c2.emoji+' '+esc(c2.name)+'</span>';});
+            h+='<span class="fc" style="background:#dcfce7;color:#166534" onclick="SE.doAddEn()" title="선택한 영어를 앞 대사에 병기">🌐 +영어</span>';
             h+='<span class="fc" style="background:#fee2e2;color:#dc2626" onclick="SE.doUnwrap()">✕ 해제</span>';
             fb.innerHTML=h;fb.style.display='flex';
             requestAnimationFrame(()=>{let left=rect.left+(rect.width/2)-(fb.offsetWidth/2),top=rect.top-fb.offsetHeight-8;if(left<8)left=8;if(top<0)top=rect.bottom+8;fb.style.left=left+'px';fb.style.top=top+'px';});
         },10);
     });
-    function doFA(type,name){restoreSel();dragAssign(type,name||'');fb.style.display='none';}
-    function doDragAssign(type,name){restoreSel();dragAssign(type,name||'');fb.style.display='none';}
-    function doUnwrap(){restoreSel();unwrapSelection();fb.style.display='none';}
     function restoreSel(){if(pendSel){const sel=window.getSelection();sel.removeAllRanges();sel.addRange(pendSel);}}
-
-    // 선택 영역이 걸친 모든 태그 + 사이의 평문을 하나로 모아 텍스트 배열로 반환
-    function collectSelection(range){
-        // 선택과 겹치는 최상위 노드들을 순서대로 순회
-        const parts=[];
-        const walker=document.createTreeWalker(dws,NodeFilter.SHOW_ALL,null);
-        // 단순화: dws의 직계 자식들을 훑으며 range와 겹치는지 확인
-        let started=false;
-        function nodeIntersects(n){
-            try{return range.intersectsNode(n);}catch(e){return false;}
+    function doFA(type,name){restoreSel();dragAssign(type,name||'');fb.style.display='none';}
+    function doUnwrap(){restoreSel();unwrapSelection();fb.style.display='none';}
+    function doAddEn(){
+        restoreSel();
+        const sel=window.getSelection();if(!sel.rangeCount||sel.isCollapsed){fb.style.display='none';return;}
+        const range=sel.getRangeAt(0);
+        if(!dws.contains(range.commonAncestorContainer)){fb.style.display='none';return;}
+        // 선택된 영어 텍스트
+        const frag=range.cloneContents();const tmp=document.createElement('div');tmp.appendChild(frag);
+        const enText=tagInner(tmp).replace(/\u200b/g,'').trim();
+        if(!enText){fb.style.display='none';return;}
+        // 선택 시작 위치 기준으로 가장 가까운 "앞쪽" 태그 찾기
+        let targetTag=null;
+        const tags=Array.from(dws.querySelectorAll('.se-tagged'));
+        for(const t of tags){
+            // 태그가 선택 시작보다 앞(또는 겹침)이면 후보
+            const cmp=range.comparePoint ? (function(){try{return range.comparePoint(t,0);}catch(e){return -1;}})() : -1;
+            // comparePoint: -1이면 t가 range 앞. 앞쪽 태그를 계속 갱신
+            if(cmp<=0) targetTag=t;
         }
-        for(const child of Array.from(dws.childNodes)){
-            if(!nodeIntersects(child))continue;
-            if(child.nodeType===3){
-                // 부분 선택 고려: 텍스트노드는 겹치는 부분만
-                parts.push(child.textContent);
-            } else if(child.classList&&child.classList.contains('se-tagged')){
-                parts.push(tagText(child));
-            } else if(child.nodeType===1){
-                parts.push(child.textContent||'');
-            }
+        if(!targetTag){ // 겹치는 태그가 선택 안에 있으면 그걸 사용
+            for(const t of tags){let hit=false;try{hit=range.intersectsNode(t);}catch(e){}if(hit){targetTag=t;break;}}
         }
-        return parts.join('').replace(/\u200b/g,'');
+        if(!targetTag){alert('영어를 병기할 대사 블록을 찾을 수 없어요.\n먼저 한국어 대사에 캐릭터를 지정한 뒤, 영어 부분을 선택하고 이 버튼을 누르세요.');fb.style.display='none';return;}
+        // 선택 영역(영어 평문) 제거
+        range.deleteContents();
+        // 대상 태그에 영어 병합 (두 줄: 한국어 / 영어)
+        const cur=(targetTag.textContent||'').replace(/\u200b/g,'');
+        const koOnly=splitDrag(cur).ko;
+        targetTag.textContent=koOnly+'\n'+enText;
+        sel.removeAllRanges();pendSel=null;dws.normalize();
+        // 남은 빈 텍스트 정리
+        updatePv();fb.style.display='none';
     }
-
+    // 선택 경계가 태그 span 내부에 걸쳐 있으면, 그 태그 전체를 포함하도록 range를 확장
+    function expandRangeOverTags(range){
+        function tagAncestor(node){
+            let n=node;
+            while(n&&n!==dws){if(n.nodeType===1&&n.classList&&n.classList.contains('se-tagged'))return n;n=n.parentNode;}
+            return null;
+        }
+        const startTag=tagAncestor(range.startContainer);
+        if(startTag)range.setStartBefore(startTag);
+        const endTag=tagAncestor(range.endContainer);
+        if(endTag)range.setEndAfter(endTag);
+    }
     function dragAssign(type,name){
         const sel=window.getSelection();if(!sel.rangeCount||sel.isCollapsed)return;
-        let range=sel.getRangeAt(0);
+        const range=sel.getRangeAt(0);
         if(!dws.contains(range.commonAncestorContainer))return;
-
-        // 1) 선택과 겹치는 기존 태그를 전부 평문으로 되돌린다 (중첩 위치 무관, 재귀 탐색)
-        const allTags=dws.querySelectorAll('.se-tagged');
-        let hadTag=false;
-        allTags.forEach(t=>{
-            let hit=false;try{hit=range.intersectsNode(t);}catch(e){}
-            if(hit){hadTag=true;t.parentNode.replaceChild(document.createTextNode((t.textContent||'').replace(/\u200b/g,'')),t);}
-        });
-        if(hadTag){
-            dws.normalize();
-            // 태그를 풀면 range가 무효화되므로, 현재 selection의 range를 다시 가져온다
-            if(!sel.rangeCount)return;
-            range=sel.getRangeAt(0);
-        }
-
-        // 2) 선택 텍스트 확보
-        const text=(range.toString()||'').replace(/\u200b/g,'').replace(/^\n+|\n+$/g,'');
-        if(!text.trim()){sel.removeAllRanges();pendSel=null;updatePv();return;}
-
-        // 3) 선택 영역을 삭제하고 새 태그 삽입
+        // 0) 경계에 걸친 태그를 통째로 포함하도록 확장 (겹침/잔여 태그 방지)
+        expandRangeOverTags(range);
+        // 1) 선택 범위의 순수 텍스트 추출 (태그/평문/개행 보존)
+        const frag=range.cloneContents();
+        const tmp=document.createElement('div');tmp.appendChild(frag);
+        const text=tagInner(tmp).replace(/\u200b/g,'').replace(/^\n+|\n+$/g,'').trim();
+        if(!text){fb.style.display='none';return;}
+        // 2) 선택 영역을 통째로 삭제 (겹친 태그도 함께 제거됨)
         range.deleteContents();
-        const span=mkTagSpan(type,name,text.trim());
+        // 3) 삭제된 자리에 새 태그 삽입
+        const span=mkTagSpan(type,name,text);
         range.insertNode(span);
-        // 태그 뒤 줄바꿈 보장
+        // 4) 삽입된 태그와 인접한 부분 정리: 태그 내부에 끼어든 잔여 태그 제거
+        span.querySelectorAll&&span.querySelectorAll('.se-tagged').forEach(t=>{
+            t.parentNode.replaceChild(document.createTextNode(t.textContent||''),t);
+        });
+        // 5) 태그 앞뒤 줄바꿈 보장
+        if(span.previousSibling&&span.previousSibling.nodeType===3&&!/\n$/.test(span.previousSibling.textContent)){
+            // 앞이 텍스트인데 개행 없음 → 유지(같은 줄일 수 있음)
+        }
         if(!(span.nextSibling&&span.nextSibling.nodeType===3&&/^\n/.test(span.nextSibling.textContent))){
             span.parentNode.insertBefore(document.createTextNode('\n'),span.nextSibling);
         }
         sel.removeAllRanges();pendSel=null;dws.normalize();updatePv();
     }
-
-    // 선택 영역의 태그를 평문으로 되돌리기
     function unwrapSelection(){
         const sel=window.getSelection();if(!sel.rangeCount)return;
         const range=sel.getRangeAt(0);
-        Array.from(dws.querySelectorAll('.se-tagged')).forEach(t=>{
-            let hit=false;try{hit=range.intersectsNode(t);}catch(e){}
-            if(hit){t.parentNode.replaceChild(document.createTextNode(tagText(t)),t);}
-        });
+        dws.querySelectorAll('.se-tagged').forEach(t=>{let hit=false;try{hit=range.intersectsNode(t);}catch(e){}if(hit){t.parentNode.replaceChild(document.createTextNode((t.textContent||'').replace(/\u200b/g,'')),t);}});
         dws.normalize();sel.removeAllRanges();pendSel=null;updatePv();
     }
-
-    // 태그 끝에서 엔터: 태그 밖으로 빠져나와 새 줄 시작
+    // 태그 끝 엔터: 태그 밖으로
     dws.addEventListener('keydown',function(e){
         if(e.key!=='Enter'||e.shiftKey)return;
-        const sel=window.getSelection();
-        if(!sel.rangeCount)return;
+        const sel=window.getSelection();if(!sel.rangeCount)return;
         const r=sel.getRangeAt(0);
         let tag=r.startContainer.nodeType===3?r.startContainer.parentElement:r.startContainer;
         while(tag&&tag!==dws&&!(tag.classList&&tag.classList.contains('se-tagged')))tag=tag.parentElement;
-        // 태그 내부이거나 태그 바로 뒤든, 항상 태그 밖 새 줄로
         if(tag&&tag.classList&&tag.classList.contains('se-tagged')){
             e.preventDefault();
             const after=document.createTextNode('\n\u200b');
-            if(tag.nextSibling)tag.parentNode.insertBefore(after,tag.nextSibling);
-            else tag.parentNode.appendChild(after);
-            const nr=document.createRange();nr.setStart(after,after.length);nr.collapse(true);
-            sel.removeAllRanges();sel.addRange(nr);
+            if(tag.nextSibling)tag.parentNode.insertBefore(after,tag.nextSibling);else tag.parentNode.appendChild(after);
+            const nr=document.createRange();nr.setStart(after,after.length);nr.collapse(true);sel.removeAllRanges();sel.addRange(nr);
         }
     });
-
-    function rmDTag(span){span.parentNode.replaceChild(document.createTextNode((span.textContent||'').replace(/\u200b/g,'')),span);dws.normalize();updatePv();}
     dws.addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'));});
-    dws.addEventListener('input',function(){ if(mode==='drag'){ cleanEmptyTags(); syncFromDrag(); updatePvOnly(); } });
-    // 내용이 비어버린 태그(백스페이스 등)를 평문/제거로 정리
-    function cleanEmptyTags(){
-        dws.querySelectorAll('.se-tagged').forEach(t=>{
-            const txt=(t.textContent||'').replace(/\u200b/g,'').trim();
-            if(!txt){ t.remove(); }
-        });
-    }
-    // 태그 요소의 텍스트를 줄바꿈 보존하며 추출
-    function tagInner(el){
-        let t='';
-        for(const ch of el.childNodes){
-            if(ch.nodeType===3)t+=ch.textContent;
-            else if(ch.nodeType===1){
-                if(ch.tagName==='BR')t+='\n';
-                else{if(t&&!t.endsWith('\n'))t+='\n';t+=tagInner(ch);}
-            }
-        }
-        return t;
-    }
-    // 드래그 모드: 체크박스와 무관하게 - 구분선이 있으면 항상 한/영 분리
-    function splitDash(raw){
-        const m=raw.match(/^([\s\S]*?)\n[ \t]*-[ \t]*\n([\s\S]*)$/);
-        if(m)return{ko:m[1].trim(),en:m[2].trim()};
-        const m2=raw.match(/^([\s\S]*?)\n[ \t]*-[ \t]*(.+)$/);
-        if(m2&&m2[2].trim())return{ko:m2[1].trim(),en:m2[2].trim()};
-        return{ko:raw,en:''};
-    }
-    function syncFromDrag(){
-        const r=[];
-        (function walk(node){
-            for(const ch of node.childNodes){
-                if(ch.nodeType===1&&ch.classList&&ch.classList.contains('se-tagged')){
-                    const raw=tagInner(ch).replace(/\u200b/g,'').replace(/\n{2,}/g,'\n').trim();
-                    if(raw){const{ko,en}=splitDash(raw);r.push({type:ch.dataset.type,name:ch.dataset.name||'',text:ko,en,hidden:''});}
-                } else if(ch.nodeType===1){
-                    walk(ch);
-                }
-            }
-        })(dws);
-        lines=r;
-    }
+    dws.addEventListener('input',function(){if(mode==='drag'){syncFromDrag();updatePvOnly();}});
+
     function syncFromText(){parseTxt($('seTEdit').value);}
 
     function textApply(){parseTxt($('seTEdit').value);setMode('form');}
@@ -2315,7 +2375,7 @@ const SE = (function(){
     function loadFromChat(){const ca=document.getElementById('chatArea');if(!ca||!ca.children.length)return;lines=[];for(const el of ca.children){let type='',name='',text='',en='',hidden='';if(el.classList.contains('my-msg-wrapper'))type='my';else if(el.classList.contains('other-msg-wrapper')){type='other';name=el.dataset.name||'';}else if(el.classList.contains('narration-msg')){type='narration';const koEl=el.querySelector('.narration-ko'),enEl=el.querySelector('.narration-en');text=koEl?koEl.innerText.trim():'';en=enEl?enEl.innerText.trim():'';lines.push({type,name:'',text,en,hidden:''});continue;}else if(el.classList.contains('system-msg')){type='system';text=el.innerText.trim();lines.push({type,name:'',text,en:'',hidden:''});continue;}else if(el.classList.contains('date-divider')){type='part';const sp=el.querySelector('span');text=sp?sp.innerText.trim():'';lines.push({type,name:'',text,en:'',hidden:''});continue;}else continue;const mt=el.querySelector('.main-text'),ht=el.querySelector('.hover-text');if(mt){const enEl=mt.querySelector('.msg-en');if(enEl)en=enEl.innerText.trim();const cl=mt.cloneNode(true);cl.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());text=cl.innerText.trim();}if(ht){const cl2=ht.cloneNode(true);cl2.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());hidden=cl2.innerText.trim();}if(type==='other'&&name&&!chars.find(c=>c.name===name)){chars.push({name,emoji:'👤',color:COLORS[cIdx%COLORS.length]});cIdx++;}lines.push({type,name,text,en,hidden});}renderChips();renderFormList();updatePv();}
 
     // 초기화
-    function reset(){if(!confirm('대본 에디터의 모든 내용을 초기화할까요?'))return;lines=[];chars=[];cIdx=0;curType='my';curChar=null;editIdx=-1;$('seFText').value='';const hidEl=$('seFHidden');if(hidEl)hidEl.value='';setHidOpen(false);dws.innerHTML='';renderChips();renderFormList();updatePv();}
+    function reset(){if(!confirm('대본 에디터의 모든 내용을 초기화할까요?'))return;lines=[];chars=[];cIdx=0;curType='my';curChar=null;editIdx=-1;if(dws)dws.innerHTML='';renderChips();renderFormList();if(mode==='drag')renderDrag();updatePv();}
 
     // 검색/치환
     function openFR(replaceMode){
@@ -2333,16 +2393,7 @@ const SE = (function(){
     // 검색 대상 텍스트를 모드별로 수집
     function frCorpus(){
         if(mode==='text')return $('seTEdit').value;
-        if(mode==='drag'){
-            // 태그 텍스트 + 평문 모두
-            let s='';
-            (function w(n){for(const ch of n.childNodes){
-                if(ch.nodeType===1&&ch.classList&&ch.classList.contains('se-tagged'))s+=tagInner(ch)+'\n';
-                else if(ch.nodeType===3)s+=ch.textContent;
-                else if(ch.nodeType===1)w(ch);
-            }})(dws);
-            return s;
-        }
+        if(mode==='drag'){syncFromDrag();return lines.map(l=>[l.text,l.en].join(' ')).join('\n');}
         // form
         frSync();
         return lines.map(l=>[l.text,l.en,l.hidden].join(' ')).join('\n');
@@ -2366,13 +2417,11 @@ const SE = (function(){
     // 드래그 모드 치환: 태그 텍스트 노드 + 평문 텍스트 노드를 직접 순회 (평문 보존)
     function frDragReplace(all){
         const rx=buildRx();if(!rx)return;const repl=$('seFRRepl').value;let cnt=0;
-        // 모든 텍스트 노드를 수집 (태그 내부 포함, 라벨 ::before는 실제 노드가 아니므로 안전)
         const tw=document.createTreeWalker(dws,NodeFilter.SHOW_TEXT,null);
         const nodes=[];let n;while(n=tw.nextNode())nodes.push(n);
         for(const node of nodes){
-            rx.lastIndex=0;
-            if(!rx.test(node.textContent))continue;
-            if(all){const b=node.textContent;node.textContent=b.replace(rx,repl);if(node.textContent!==b)cnt+=(b.match(rx)||[]).length;}
+            rx.lastIndex=0;if(!rx.test(node.textContent))continue;
+            if(all){const b=node.textContent;node.textContent=b.replace(rx,repl);cnt+=(b.match(rx)||[]).length;}
             else{let done=false;node.textContent=node.textContent.replace(rx,m=>{if(done)return m;done=true;cnt=1;return repl;});if(done)break;}
         }
         syncFromDrag();updatePvOnly();
@@ -2407,7 +2456,7 @@ const SE = (function(){
     document.addEventListener('keydown',function(e){if(!$('seOverlay').classList.contains('open'))return;if((e.ctrlKey||e.metaKey)&&e.key==='f'){e.preventDefault();openFR(false);}if((e.ctrlKey||e.metaKey)&&e.key==='h'){e.preventDefault();openFR(true);}});
     $('seFRFind').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();frFind();}});
 
-    function toggleHid(btn){const box=btn.nextElementSibling;const open=box.classList.toggle('show');btn.classList.toggle('open',open);if(open)$('seFHidden').focus();}
+    function toggleHid(btn){const box=btn.nextElementSibling;const open=box.classList.toggle('show');btn.classList.toggle('open',open);const h=$('seFHidden');if(open&&h)h.focus();}
     function setHidOpen(open){const btn=document.querySelector('#seForm .hid-toggle');const box=document.querySelector('#seForm .hid-box');if(!btn||!box)return;box.classList.toggle('show',open);btn.classList.toggle('open',open);}
     function togglePv(){$('sePv').classList.toggle('open');}
     function toggleHelp(){$('seHelpTip').classList.toggle('open');}
@@ -2425,10 +2474,10 @@ const SE = (function(){
         if(typeof window.updateMsgCount==='function')window.updateMsgCount();
         close();
     }
-    function open(){loadFromChat();$('seOverlay').classList.add('open');}
+    function open(){loadFromChat();renderChips();renderFormList();updatePvOnly();$('seOverlay').classList.add('open');}
     function close(){$('seOverlay').classList.remove('open');}
 
-    return{open,close,pick,pickCharI,addChar,rmChar,setMode,formAdd,formEdit,formDel,fds,fde,fdd,fdx,doFA,doUnwrap,textApply,applyToChat,renderChips,reset,openFR,closeFR,frFind,frReplace,frReplaceAll,frNext,frPrev,exportTxt,importTxt,toggleRepl,toggleOpts,toggleHelp,toggleHid,togglePv};
+    return{open,close,pick,pickCharI,addChar,rmChar,setMode,formDel,fds,fde,fdd,fdx,textApply,applyToChat,renderChips,reset,openFR,closeFR,frFind,frReplace,frReplaceAll,frNext,frPrev,exportTxt,importTxt,toggleRepl,toggleOpts,toggleHelp,toggleHid,togglePv,flEdit,flKey,flAdd,flSetType,flHid,doFA,doUnwrap,doAddEn};
 })();
 </script>
 
