@@ -52,7 +52,11 @@
     h2 { margin: 0 0 5px 0; color: #333; font-size: 1.2rem; text-align: center; }
     h3 { margin: 0; font-size: 0.9rem; color: #666; border-bottom: 2px solid #eee; padding-bottom: 5px; }
 
-    .settings-panel { width: 320px; flex-shrink: 0; position: sticky; top: 20px; max-height: 90vh; overflow-y: auto; z-index: 100; }
+    .settings-panel { width: 320px; flex-shrink: 0; position: sticky; top: 20px; max-height: 90vh; overflow: hidden; z-index: 100; display:flex; flex-direction:column; }
+    .stab-header { flex-shrink:0; padding-bottom:8px; }
+    .stab-body { flex:1; overflow-y:auto; min-height:0; }
+    .stab-body::-webkit-scrollbar { width:4px; }
+    .stab-body::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.15); border-radius:2px; }
     .input-panel { width: 350px; flex-shrink: 0; position: sticky; top: 20px; z-index: 100; }
     .phone-wrapper { flex-shrink: 0; margin-bottom: 50px; display: flex; justify-content: center; }
 
@@ -146,7 +150,7 @@
     @keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateX(40px); } }
 
     /* 설정 탭 */
-    .stab-bar { display:flex; gap:0; margin-bottom:10px; border-radius:8px; overflow:hidden; border:1px solid #eee; }
+    .stab-bar { display:flex; gap:0; margin-bottom:0; border-radius:8px; overflow:hidden; border:1px solid #eee; }
     .stab-btn { flex:1; padding:8px 4px; text-align:center; font-size:0.78rem; font-weight:600; color:#888; background:#f8f9fa; cursor:pointer; border:none; transition:0.15s; white-space:nowrap; }
     .stab-btn:hover { background:#eee; color:#555; }
     .stab-btn.active { background:#6c5ce7; color:#fff; }
@@ -566,33 +570,23 @@
  
 <!-- ===== 설정 패널 ===== -->
 <div class="panel settings-panel" role="region" aria-label="기본 설정">
-    <h2>⚙️ 설정</h2>
-    <div class="stab-bar">
-        <button class="stab-btn active" data-tab="tabBasic">기본</button>
-        <button class="stab-btn" data-tab="tabStyle">꾸미기</button>
-        <button class="stab-btn" data-tab="tabIcon">아이콘</button>
-        <button class="stab-btn" data-tab="tabSave">저장</button>
+    <div class="stab-header">
+        <h2>⚙️ 설정</h2>
+        <div class="stab-bar">
+            <button class="stab-btn active" data-tab="tabBasic">기본</button>
+            <button class="stab-btn" data-tab="tabStyle">꾸미기</button>
+            <button class="stab-btn" data-tab="tabTheme">테마</button>
+            <button class="stab-btn" data-tab="tabIcon">아이콘</button>
+            <button class="stab-btn" data-tab="tabSave">저장</button>
+        </div>
     </div>
+    <div class="stab-body">
 
     <!-- ━━━ 탭1: 기본 ━━━ -->
     <div class="stab-panel active" id="tabBasic">
         <div>
             <label for="roomNameInput">채팅방 이름</label>
             <input type="text" id="roomNameInput" value="채팅방">
-        </div>
-        <div>
-            <label for="themeSelector">테마 선택</label>
-            <div style="display:flex; gap:4px; align-items:center;">
-                <select id="themeSelector" style="flex:1; min-width:0;">
-                    <option value="theme-default">💜 기본 (보라)</option>
-                    <option value="theme-kakao">💛 카카오 (노랑)</option>
-                    <option value="theme-line">💚 라인 (초록)</option>
-                    <option value="theme-mono">🖤 모노 (흑백)</option>
-                    <option value="theme-custom">🎨 커스텀 (직접 꾸미기)</option>
-                </select>
-                <button class="btn" id="btnPresetSave" title="현재 설정 저장" style="width:32px; height:32px; padding:0; margin:0; background:#fd9644; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">⭐</button>
-                <button class="btn" id="btnPresetDel" title="선택한 프리셋 삭제" style="width:32px; height:32px; padding:0; margin:0; background:#ff5252; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">🗑️</button>
-            </div>
         </div>
         <div>
             <label>📝 기본 글꼴 (한국어 대사)</label>
@@ -727,8 +721,26 @@
             </div>
         </div>
 
-        <div id="customThemeSettings" style="display:none; background:#fff; padding:12px; border-radius:8px; border:2px dashed #ddd; margin-top:10px;">
-            <h3 style="margin-bottom:8px; border:none; font-size:0.85rem;">🎨 색상 상세 설정</h3>
+    </div>
+
+    <!-- ━━━ 탭: 테마 ━━━ -->
+    <div class="stab-panel" id="tabTheme">
+        <div>
+            <label for="themeSelector">테마 선택</label>
+            <div style="display:flex; gap:4px; align-items:center;">
+                <select id="themeSelector" style="flex:1; min-width:0;">
+                    <option value="theme-default">💜 기본 (보라)</option>
+                    <option value="theme-kakao">💛 카카오 (노랑)</option>
+                    <option value="theme-line">💚 라인 (초록)</option>
+                    <option value="theme-mono">🖤 모노 (흑백)</option>
+                    <option value="theme-custom">🎨 커스텀 (직접 꾸미기)</option>
+                </select>
+                <button class="btn" id="btnPresetSave" title="현재 설정 저장" style="width:32px; height:32px; padding:0; margin:0; background:#fd9644; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">⭐</button>
+                <button class="btn" id="btnPresetDel" title="선택한 프리셋 삭제" style="width:32px; height:32px; padding:0; margin:0; background:#ff5252; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">🗑️</button>
+            </div>
+        </div>
+        <h3 style="margin-top:4px; margin-bottom:2px;">🎨 색상 상세 (커스텀 테마)</h3>
+        <div id="customThemeSettings" style="background:#fff; padding:0; border:none;">
             <div class="color-grid">
                 <div class="color-item"><span>상단 배경</span><input type="color" id="customHeaderBg" value="#6c5ce7"></div>
                 <div class="color-item"><span>상단 글자</span><input type="color" id="customHeaderTxt" value="#ffffff"></div>
@@ -747,7 +759,7 @@
                 <div class="color-item"><span>지문 테두리</span><input type="color" id="customNarBorder" value="#cbd5e1"></div>
                 <div class="color-item"><span>지문 글자</span><input type="color" id="customNarTxt" value="#475569"></div>
             </div>
-            <div style="border-top:1px solid #eee; padding-top:8px;">
+            <div style="border-top:1px solid #eee; padding-top:8px; margin-top:8px;">
                 <label style="font-size:0.8rem; color:#666;">🔗 테마 코드 (JSON)</label>
                 <div style="display:flex; gap:5px; margin-bottom:5px;">
                     <input type="text" id="themeCodeInput" placeholder="테마 코드 붙여넣기" style="font-size:0.8rem;">
@@ -756,14 +768,15 @@
                 <button class="btn" id="btnExportTheme" style="margin:0; background:#eee; color:#333; font-size:0.8rem; border:1px solid #ccc;">📤 현재 테마 코드 복사</button>
             </div>
         </div>
+        <p style="font-size:0.75rem; color:#999; margin-top:8px; text-align:center;">꾸미기 탭에서 "🎨 커스텀" 테마를 선택하면 여기 색상이 적용됩니다.</p>
     </div>
 
-    <!-- ━━━ 탭3: 아이콘 ━━━ -->
+    <!-- ━━━ 탭: 아이콘 ━━━ -->
     <div class="stab-panel" id="tabIcon">
         <label style="display:inline-flex; align-items:center; cursor:pointer;">
             <input type="checkbox" id="chkShowAvatar" style="width:auto; margin-right:5px;"> 프로필 아이콘 표시
         </label>
-        <div id="avatarDetailGroup" style="display:none;">
+        <div id="avatarDetailGroup">
             <div style="background:#f8f9fa; padding:8px; border-radius:6px; margin-bottom:6px;">
                 <label style="font-size:0.8rem;">🟣 나의 아이콘</label>
                 <input type="file" id="myAvatarUpload" accept="image/*">
@@ -824,10 +837,8 @@
             <button class="btn btn-copy" id="btnCopyHtml">📋 HTML 코드 복사</button>
         </div>
     </div>
+    </div><!-- stab-body -->
 </div>
-
-<!-- ===== 입력 패널 ===== -->
-<!-- ===== 입력 패널 ===== -->
 <div class="panel input-panel" role="region" aria-label="메시지 입력">
     <button class="btn-editor" onclick="SE.open()">📝 대본 에디터 열기</button>
     <h2 id="inputTitle">✍️ 내용 작성</h2>
@@ -1241,7 +1252,7 @@
     }
 
     // ===== 3. 프로필 아이콘 =====
-    function toggleAvatarSettings() { $('avatarDetailGroup').style.display=$('chkShowAvatar').checked?'block':'none'; refreshAllAvatars(); }
+    function toggleAvatarSettings() { refreshAllAvatars(); }
     function applyAvatarSize() { const s=$('avatarSize').value; $('avatarSizeVal').textContent=s; $qa('.msg-avatar').forEach(el=>{el.style.width=s+'px';el.style.height=s+'px';el.style.minWidth=s+'px';}); }
     function loadAvatarData() {
         return Promise.all([readFile($('myAvatarUpload').files[0]),readFile($('otherAvatarUpload').files[0])]).then(([a,b])=>{
@@ -1425,8 +1436,8 @@
         const bubbleClasses=[]; pc.classList.forEach(c=>{if(c.startsWith('bubble-')||c==='no-tail')bubbleClasses.push(c);});
         pc.className='phone-container '+t+' '+bubbleClasses.join(' ');
         applyFont();
-        if(t==='theme-custom'){els.customPanel.style.display='block';updateCustomTheme();}
-        else{els.customPanel.style.display='none'; /* CSS 변수 유지하되 스타일 초기화하지 않음 */ toggleBorder(); applyPhoneWidth();}
+        if(t==='theme-custom'){updateCustomTheme();}
+        else{ toggleBorder(); applyPhoneWidth();}
     }
     function updateCustomTheme(){ if(els.theme.value!=='theme-custom')return; for(const[p,id]of Object.entries(CCI))els.phone.style.setProperty(p,$(id).value); toggleBorder(); }
     function applyThemeCode(){
@@ -2420,8 +2431,8 @@ ${bodyIndented}
         const bubbleClasses=[]; pc.classList.forEach(c=>{if(c.startsWith('bubble-')||c==='no-tail')bubbleClasses.push(c);});
         pc.className='phone-container '+t+' '+bubbleClasses.join(' ');
         applyFont();
-        if(t==='theme-custom'){els.customPanel.style.display='block';updateCustomTheme();}
-        else{els.customPanel.style.display='none'; toggleBorder(); applyPhoneWidth();}
+        if(t==='theme-custom'){updateCustomTheme();}
+        else{ toggleBorder(); applyPhoneWidth();}
         applyContainerMode();
         applyBubbleShape(); applyFontSize(); toggleAvatarSettings(); applyAvatarSize();
         updateBgEffects(); updateRoomName();
