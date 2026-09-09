@@ -145,6 +145,14 @@
     @keyframes toastIn { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
     @keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateX(40px); } }
 
+    /* 설정 탭 */
+    .stab-bar { display:flex; gap:0; margin-bottom:10px; border-radius:8px; overflow:hidden; border:1px solid #eee; }
+    .stab-btn { flex:1; padding:8px 4px; text-align:center; font-size:0.78rem; font-weight:600; color:#888; background:#f8f9fa; cursor:pointer; border:none; transition:0.15s; white-space:nowrap; }
+    .stab-btn:hover { background:#eee; color:#555; }
+    .stab-btn.active { background:#6c5ce7; color:#fff; }
+    .stab-panel { display:none; flex-direction:column; gap:10px; }
+    .stab-panel.active { display:flex; }
+
     /* 접기/펼치기 */
     .section-toggle { background:#f8f9fa; border:1px solid #eee; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:0.85rem; font-weight:bold; color:#555; display:flex; justify-content:space-between; align-items:center; transition:0.2s; user-select:none; }
     .section-toggle:hover { background:#eee; }
@@ -558,56 +566,39 @@
  
 <!-- ===== 설정 패널 ===== -->
 <div class="panel settings-panel" role="region" aria-label="기본 설정">
-    <h2>⚙️ 기본 설정</h2>
-    <div>
-        <label for="roomNameInput">채팅방 이름</label>
-        <input type="text" id="roomNameInput" value="채팅방">
+    <h2>⚙️ 설정</h2>
+    <div class="stab-bar">
+        <button class="stab-btn active" data-tab="tabBasic">기본</button>
+        <button class="stab-btn" data-tab="tabStyle">꾸미기</button>
+        <button class="stab-btn" data-tab="tabIcon">아이콘</button>
+        <button class="stab-btn" data-tab="tabSave">저장</button>
     </div>
-    <div>
-        <label for="themeSelector">테마 선택</label>
-        <div style="display:flex; gap:4px; align-items:center;">
-            <select id="themeSelector" style="flex:1; min-width:0;">
-                <option value="theme-default">💜 기본 (보라)</option>
-                <option value="theme-kakao">💛 카카오 (노랑)</option>
-                <option value="theme-line">💚 라인 (초록)</option>
-                <option value="theme-mono">🖤 모노 (흑백)</option>
-                <option value="theme-custom">🎨 커스텀 (직접 꾸미기)</option>
-            </select>
-            <button class="btn" id="btnPresetSave" title="현재 설정 저장" style="width:32px; height:32px; padding:0; margin:0; background:#fd9644; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">⭐</button>
-            <button class="btn" id="btnPresetDel" title="선택한 프리셋 삭제" style="width:32px; height:32px; padding:0; margin:0; background:#ff5252; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">🗑️</button>
+
+    <!-- ━━━ 탭1: 기본 ━━━ -->
+    <div class="stab-panel active" id="tabBasic">
+        <div>
+            <label for="roomNameInput">채팅방 이름</label>
+            <input type="text" id="roomNameInput" value="채팅방">
         </div>
-    </div>
-<div>
-        <label>📝 기본 글꼴 (한국어 대사)</label>
-        <div style="display:flex; gap:4px; align-items:center;">
-            <select id="fontSelector" style="flex:1; min-width:0;">
-                <option value="">기본</option>
-                <option value="malgun">맑은 고딕</option>
-                <option value="nanum-gothic">나눔고딕</option>
-                <option value="nanum-myeongjo">나눔명조</option>
-                <option value="ridi-batang">리디바탕</option>
-                <option value="gangwon-edu">강원교육모두체</option>
-                <option value="ongleub-parkdahyun">온글잎박다현체</option>
-                <option value="dotum">돋움</option>
-                <option value="gulim">굴림</option>
-                <option value="batang">바탕</option>
-                <option value="gungsuh">궁서</option>
-                <option value="arial">Arial</option>
-                <option value="times">Times New Roman</option>
-                <option value="georgia">Georgia</option>
-                <option value="courier">Courier New</option>
-            </select>
-            <input type="number" id="fontSize" min="8" max="40" value="15" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="글꼴 크기 (px)">
-            <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
-        </div>
-    </div>
-    <div class="section-toggle" id="togFontDetail">🔤 글꼴 세부 설정 (영어 병기 · 지문) <span class="arrow">▼</span></div>
-    <div class="section-body" id="secFontDetail">
-        <div style="background:#f0f0ff; padding:10px; border-radius:8px; margin-bottom:8px;">
-            <label style="font-size:0.82rem; color:#6c5ce7; margin-bottom:6px;">🌐 영어 병기</label>
+        <div>
+            <label for="themeSelector">테마 선택</label>
             <div style="display:flex; gap:4px; align-items:center;">
-                <select id="enFontSelector" style="flex:1; min-width:0; font-size:0.85rem;">
-                    <option value="">(기본 글꼴 따라감)</option>
+                <select id="themeSelector" style="flex:1; min-width:0;">
+                    <option value="theme-default">💜 기본 (보라)</option>
+                    <option value="theme-kakao">💛 카카오 (노랑)</option>
+                    <option value="theme-line">💚 라인 (초록)</option>
+                    <option value="theme-mono">🖤 모노 (흑백)</option>
+                    <option value="theme-custom">🎨 커스텀 (직접 꾸미기)</option>
+                </select>
+                <button class="btn" id="btnPresetSave" title="현재 설정 저장" style="width:32px; height:32px; padding:0; margin:0; background:#fd9644; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">⭐</button>
+                <button class="btn" id="btnPresetDel" title="선택한 프리셋 삭제" style="width:32px; height:32px; padding:0; margin:0; background:#ff5252; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">🗑️</button>
+            </div>
+        </div>
+        <div>
+            <label>📝 기본 글꼴 (한국어 대사)</label>
+            <div style="display:flex; gap:4px; align-items:center;">
+                <select id="fontSelector" style="flex:1; min-width:0;">
+                    <option value="">기본</option>
                     <option value="malgun">맑은 고딕</option>
                     <option value="nanum-gothic">나눔고딕</option>
                     <option value="nanum-myeongjo">나눔명조</option>
@@ -623,69 +614,68 @@
                     <option value="georgia">Georgia</option>
                     <option value="courier">Courier New</option>
                 </select>
-                <input type="number" id="enFontSize" min="8" max="40" value="13" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="영어 크기 (px)">
+                <input type="number" id="fontSize" min="8" max="40" value="15" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="글꼴 크기 (px)">
+                <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
+            </div>
+        </div>
+        <div style="background:#f0f0ff; padding:10px; border-radius:8px;">
+            <label style="font-size:0.82rem; color:#6c5ce7; margin-bottom:6px;">🌐 영어 병기 글꼴</label>
+            <div style="display:flex; gap:4px; align-items:center;">
+                <select id="enFontSelector" style="flex:1; min-width:0; font-size:0.85rem;">
+                    <option value="">(기본 따라감)</option>
+                    <option value="malgun">맑은 고딕</option><option value="nanum-gothic">나눔고딕</option><option value="nanum-myeongjo">나눔명조</option><option value="ridi-batang">리디바탕</option><option value="gangwon-edu">강원교육모두체</option><option value="ongleub-parkdahyun">온글잎박다현체</option><option value="dotum">돋움</option><option value="gulim">굴림</option><option value="batang">바탕</option><option value="gungsuh">궁서</option><option value="arial">Arial</option><option value="times">Times New Roman</option><option value="georgia">Georgia</option><option value="courier">Courier New</option>
+                </select>
+                <input type="number" id="enFontSize" min="8" max="40" value="13" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;">
                 <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
             </div>
         </div>
         <div style="background:#f9f6ee; padding:10px; border-radius:8px;">
-            <label style="font-size:0.82rem; color:#92400e; margin-bottom:6px;">🎬 지문 (나레이션)</label>
+            <label style="font-size:0.82rem; color:#92400e; margin-bottom:6px;">🎬 지문 글꼴</label>
             <div style="display:flex; gap:4px; align-items:center;">
                 <select id="narFontSelector" style="flex:1; min-width:0; font-size:0.85rem;">
-                    <option value="">(기본 글꼴 따라감)</option>
-                    <option value="malgun">맑은 고딕</option>
-                    <option value="nanum-gothic">나눔고딕</option>
-                    <option value="nanum-myeongjo">나눔명조</option>
-                    <option value="ridi-batang">리디바탕</option>
-                    <option value="gangwon-edu">강원교육모두체</option>
-                    <option value="ongleub-parkdahyun">온글잎박다현체</option>
-                    <option value="dotum">돋움</option>
-                    <option value="gulim">굴림</option>
-                    <option value="batang">바탕</option>
-                    <option value="gungsuh">궁서</option>
-                    <option value="arial">Arial</option>
-                    <option value="times">Times New Roman</option>
-                    <option value="georgia">Georgia</option>
-                    <option value="courier">Courier New</option>
+                    <option value="">(기본 따라감)</option>
+                    <option value="malgun">맑은 고딕</option><option value="nanum-gothic">나눔고딕</option><option value="nanum-myeongjo">나눔명조</option><option value="ridi-batang">리디바탕</option><option value="gangwon-edu">강원교육모두체</option><option value="ongleub-parkdahyun">온글잎박다현체</option><option value="dotum">돋움</option><option value="gulim">굴림</option><option value="batang">바탕</option><option value="gungsuh">궁서</option><option value="arial">Arial</option><option value="times">Times New Roman</option><option value="georgia">Georgia</option><option value="courier">Courier New</option>
                 </select>
-                <input type="number" id="narFontSize" min="8" max="40" value="14" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="지문 크기 (px)">
+                <input type="number" id="narFontSize" min="8" max="40" value="14" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;">
                 <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
             </div>
         </div>
-    </div>
-    <div style="margin-top:5px;">
-        <label style="display:inline-flex; align-items:center; cursor:pointer;">
-            <input type="checkbox" id="chkBorder" checked="" style="width:auto; margin-right:5px;">
-            📱 핸드폰 테두리 보기
-        </label>
-    </div>
-
-    <!-- 컨테이너 크기 -->
-    <div class="section-toggle" id="togContainerMode">📐 컨테이너 크기 <span class="arrow">▼</span></div>
-    <div class="section-body" id="secContainerMode">
-        <label>가로 너비 (px)</label>
-        <div class="slider-row">
-            <input type="range" id="phoneWidth" min="280" max="600" value="400" step="10">
-            <input type="number" id="phoneWidthVal" min="280" max="600" value="400" step="10" style="width:52px; text-align:center; padding:2px 4px; font-size:0.8rem; font-weight:bold; color:#666; border:1px solid #ddd; border-radius:4px;">
+        <div>
+            <label>📐 가로 너비 (px)</label>
+            <div class="slider-row">
+                <input type="range" id="phoneWidth" min="280" max="600" value="400" step="10">
+                <input type="number" id="phoneWidthVal" min="280" max="600" value="400" step="10" style="width:52px; text-align:center; padding:2px 4px; font-size:0.8rem; font-weight:bold; color:#666; border:1px solid #ddd; border-radius:4px;">
+            </div>
         </div>
-        <div style="margin-top:8px;">
+        <div>
             <label>세로 모드</label>
             <div class="radio-group" style="grid-template-columns:1fr 1fr;">
                 <div class="radio-option"><input type="radio" name="containerMode" id="modeExpand" value="expand" checked=""><label for="modeExpand">📏 늘리기</label></div>
                 <div class="radio-option"><input type="radio" name="containerMode" id="modeScroll" value="scroll"><label for="modeScroll">📜 스크롤</label></div>
             </div>
         </div>
-        <div id="scrollHeightGroup" style="display:none; margin-top:8px;">
+        <div id="scrollHeightGroup" style="display:none;">
             <label>스크롤 높이 (px)</label>
             <div class="slider-row">
                 <input type="range" id="scrollHeight" min="300" max="900" value="600" step="50">
                 <input type="number" id="scrollHeightVal" min="300" max="2000" value="600" step="10" style="width:52px; text-align:center; padding:2px 4px; font-size:0.8rem; font-weight:bold; color:#666; border:1px solid #ddd; border-radius:4px;">
             </div>
         </div>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+            <label style="display:inline-flex; align-items:center; cursor:pointer;">
+                <input type="checkbox" id="chkBorder" checked="" style="width:auto; margin-right:5px;">
+                📱 핸드폰 테두리 보기
+            </label>
+            <label style="display:inline-flex; align-items:center; cursor:pointer;">
+                <input type="checkbox" id="chkHideImgNum" style="width:auto; margin-right:5px;">
+                🔢 이미지 순서 번호 숨기기
+            </label>
+        </div>
     </div>
 
-    <!-- 배경화면 -->
-    <div class="section-toggle" id="togBgSettings">🖼️ 배경화면 <span class="arrow">▼</span></div>
-    <div class="section-body" id="secBgSettings">
+    <!-- ━━━ 탭2: 꾸미기 ━━━ -->
+    <div class="stab-panel" id="tabStyle">
+        <h3 style="margin-bottom:2px;">🖼️ 배경화면</h3>
         <label>배경 이미지</label>
         <input type="file" id="bgImgUpload" accept="image/*">
         <input type="text" id="bgImgUrl" placeholder="또는 이미지 URL 입력" style="margin-top:4px;">
@@ -694,24 +684,86 @@
             <button class="btn" id="btnClearBg" style="background:#ddd; color:#333; margin:0; flex:1;">제거</button>
         </div>
         <div class="bg-preview" id="bgPreview">미리보기</div>
-        <label style="margin-top:8px;">투명도</label>
+        <label style="margin-top:6px;">투명도</label>
         <div class="slider-row"><input type="range" id="bgOpacity" min="0" max="100" value="100" step="5"><span class="slider-val" id="bgOpacityVal">100%</span></div>
-        <label style="margin-top:6px;">블러</label>
+        <label style="margin-top:4px;">블러</label>
         <div class="slider-row"><input type="range" id="bgBlur" min="0" max="20" value="0" step="1"><span class="slider-val" id="bgBlurVal">0px</span></div>
-        <label style="margin-top:6px;">오버레이</label>
+        <label style="margin-top:4px;">오버레이</label>
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="color" id="bgOverlayColor" value="#000000" style="width:30px; height:30px;" aria-label="오버레이 색">
             <div class="slider-row" style="flex:1;"><input type="range" id="bgOverlayOpacity" min="0" max="80" value="0" step="5"><span class="slider-val" id="bgOverlayOpacityVal">0%</span></div>
         </div>
+
+        <h3 style="margin-top:12px; margin-bottom:2px;">💬 말풍선 모양</h3>
+        <div class="radio-group" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsDefault" value="default" checked=""><label for="bsDefault">기본</label></div>
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsRound" value="round"><label for="bsRound">둥글게</label></div>
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsSquare" value="square"><label for="bsSquare">각지게</label></div>
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsCloud" value="cloud"><label for="bsCloud">구름</label></div>
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsFlat" value="flat"><label for="bsFlat">플랫</label></div>
+            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsPill" value="pill"><label for="bsPill">알약</label></div>
+            <div class="radio-option" style="grid-column:span 3;"><input type="radio" name="bubbleShape" id="bsCustom" value="custom"><label for="bsCustom">🎨 직접 꾸미기</label></div>
+        </div>
+        <label style="display:inline-flex; align-items:center; cursor:pointer; margin-top:4px;">
+            <input type="checkbox" id="chkNoTail" style="width:auto; margin-right:5px;"> 꼬리 숨기기
+        </label>
+        <div id="customBubbleSettings" style="display:none; margin-top:8px; background:#f8f9fa; padding:10px; border-radius:8px; border:1px dashed #ddd;">
+            <h3 style="border:none; font-size:0.85rem; margin-bottom:6px;">🎨 말풍선 직접 설정</h3>
+            <label>전체 라운딩</label>
+            <div class="slider-row"><input type="range" id="cbRadius" min="0" max="30" value="15" step="1"><span class="slider-val" id="cbRadiusVal">15</span></div>
+            <label style="margin-top:4px;">나의 꼭지 라운딩</label>
+            <div class="slider-row"><input type="range" id="cbMyCorner" min="0" max="20" value="0" step="1"><span class="slider-val" id="cbMyCornerVal">0</span></div>
+            <label style="margin-top:4px;">상대 꼭지 라운딩</label>
+            <div class="slider-row"><input type="range" id="cbOtherCorner" min="0" max="20" value="0" step="1"><span class="slider-val" id="cbOtherCornerVal">0</span></div>
+            <label style="margin-top:4px;">패딩 세로 / 가로</label>
+            <div class="slider-row"><input type="range" id="cbPadV" min="4" max="20" value="10" step="1"><span class="slider-val" id="cbPadVVal">10</span></div>
+            <div class="slider-row"><input type="range" id="cbPadH" min="6" max="24" value="14" step="1"><span class="slider-val" id="cbPadHVal">14</span></div>
+            <label style="margin-top:4px;">그림자 / 테두리</label>
+            <div class="slider-row"><input type="range" id="cbShadow" min="0" max="20" value="1" step="1"><span class="slider-val" id="cbShadowVal">1</span></div>
+            <div class="slider-row"><input type="range" id="cbBorderW" min="0" max="4" value="0" step="0.5"><span class="slider-val" id="cbBorderWVal">0</span></div>
+            <div style="display:flex; gap:6px; align-items:center; margin-top:4px;">
+                <label style="margin:0; font-size:0.8rem; white-space:nowrap;">테두리 색</label>
+                <input type="color" id="cbBorderColor" value="#cccccc" style="width:24px;height:24px;">
+            </div>
+        </div>
+
+        <div id="customThemeSettings" style="display:none; background:#fff; padding:12px; border-radius:8px; border:2px dashed #ddd; margin-top:10px;">
+            <h3 style="margin-bottom:8px; border:none; font-size:0.85rem;">🎨 색상 상세 설정</h3>
+            <div class="color-grid">
+                <div class="color-item"><span>상단 배경</span><input type="color" id="customHeaderBg" value="#6c5ce7"></div>
+                <div class="color-item"><span>상단 글자</span><input type="color" id="customHeaderTxt" value="#ffffff"></div>
+                <div class="color-item"><span>채팅 배경</span><input type="color" id="customChatBg" value="#e9e9f3"></div>
+                <div class="color-item"><span>테두리 색</span><input type="color" id="customBorderCol" value="#333333"></div>
+                <div class="color-item"><span>나의 배경</span><input type="color" id="customMyBg" value="#6c5ce7"></div>
+                <div class="color-item"><span>나의 글자</span><input type="color" id="customMyTxt" value="#ffffff"></div>
+                <div class="color-item"><span>상대 배경</span><input type="color" id="customOtherBg" value="#ffffff"></div>
+                <div class="color-item"><span>상대 글자</span><input type="color" id="customOtherTxt" value="#333333"></div>
+                <div class="color-item"><span>이름표 색</span><input type="color" id="customNameTxt" value="#555555"></div>
+                <div class="color-item"><span>시스템 색</span><input type="color" id="customSystemTxt" value="#888888"></div>
+                <div class="color-item"><span>날짜 배경</span><input type="color" id="customDateBg" value="#cccccc"></div>
+                <div class="color-item"><span>날짜 글자</span><input type="color" id="customDateTxt" value="#ffffff"></div>
+                <div class="color-item"><span>영어 병기</span><input type="color" id="customEnTxt" value="#64748b"></div>
+                <div class="color-item"><span>지문 배경</span><input type="color" id="customNarBg" value="#f8fafc"></div>
+                <div class="color-item"><span>지문 테두리</span><input type="color" id="customNarBorder" value="#cbd5e1"></div>
+                <div class="color-item"><span>지문 글자</span><input type="color" id="customNarTxt" value="#475569"></div>
+            </div>
+            <div style="border-top:1px solid #eee; padding-top:8px;">
+                <label style="font-size:0.8rem; color:#666;">🔗 테마 코드 (JSON)</label>
+                <div style="display:flex; gap:5px; margin-bottom:5px;">
+                    <input type="text" id="themeCodeInput" placeholder="테마 코드 붙여넣기" style="font-size:0.8rem;">
+                    <button class="btn" id="btnApplyTheme" style="width:auto; margin:0; padding:5px 10px; background:#555; color:white; font-size:0.8rem;">적용</button>
+                </div>
+                <button class="btn" id="btnExportTheme" style="margin:0; background:#eee; color:#333; font-size:0.8rem; border:1px solid #ccc;">📤 현재 테마 코드 복사</button>
+            </div>
+        </div>
     </div>
 
-    <!-- 프로필 아이콘 -->
-    <div class="section-toggle" id="togAvatarSettings">👤 프로필 아이콘 <span class="arrow">▼</span></div>
-    <div class="section-body" id="secAvatarSettings">
+    <!-- ━━━ 탭3: 아이콘 ━━━ -->
+    <div class="stab-panel" id="tabIcon">
         <label style="display:inline-flex; align-items:center; cursor:pointer;">
             <input type="checkbox" id="chkShowAvatar" style="width:auto; margin-right:5px;"> 프로필 아이콘 표시
         </label>
-        <div id="avatarDetailGroup" style="display:none; margin-top:8px;">
+        <div id="avatarDetailGroup" style="display:none;">
             <div style="background:#f8f9fa; padding:8px; border-radius:6px; margin-bottom:6px;">
                 <label style="font-size:0.8rem;">🟣 나의 아이콘</label>
                 <input type="file" id="myAvatarUpload" accept="image/*">
@@ -723,16 +775,16 @@
                     <input type="text" id="myAvatarInitial" value="나" maxlength="2" style="width:40px; font-size:0.8rem; padding:4px; text-align:center;">
                 </div>
             </div>
-            <!-- 상대 기본 아이콘 (숨김 - 캐릭터별 아이콘 사용) -->
+            <!-- 상대 기본 아이콘 (숨김) -->
             <input type="file" id="otherAvatarUpload" accept="image/*" style="display:none;">
             <input type="text" id="otherAvatarUrl" value="" style="display:none;">
             <input type="color" id="otherAvatarBg" value="#74b9ff" style="display:none;">
             <input type="text" id="otherAvatarInitial" value="" style="display:none;">
-           <label style="margin-top:8px;">아이콘 크기</label>
+
+            <label>아이콘 크기</label>
             <div class="slider-row"><input type="range" id="avatarSize" min="24" max="48" value="36" step="2"><span class="slider-val" id="avatarSizeVal">36</span></div>
 
-            <!-- 캐릭터별 아이콘 -->
-            <div style="margin-top:12px; padding-top:10px; border-top:1px solid #eee;">
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid #eee;">
                 <label style="font-size:0.85rem; color:#6c5ce7; margin-bottom:6px;">🎭 캐릭터별 아이콘 (이름 자동 매칭)</label>
                 <div class="char-icon-list" id="charIconList">
                     <div style="text-align:center; color:#999; font-size:0.78rem; padding:8px;">등록된 캐릭터가 없습니다</div>
@@ -745,15 +797,7 @@
                         <input type="color" id="charAddBg" value="#74b9ff" style="width:24px; height:24px;" title="배경색">
                         <input type="text" id="charAddInitial" placeholder="글자" maxlength="2" style="width:32px; text-align:center;">
                     </div>
-                    <select id="charAddCrop" style="width:60px; font-size:0.78rem; padding:2px;" title="크롭 위치">
-                        <option value="center">중앙</option>
-                        <option value="top">위</option>
-                        <option value="bottom">아래</option>
-                        <option value="left">왼쪽</option>
-                        <option value="right">오른쪽</option>
-                    </select>
                     <button onclick="addCharIcon()">등록</button>
-
                 </div>
                 <div style="font-size:0.72rem; color:#999; margin-top:4px; line-height:1.4;">
                     이름이 일치하는 상대방 메시지에 자동 적용됩니다.<br>
@@ -763,99 +807,26 @@
         </div>
     </div>
 
-
-    <!-- 말풍선 모양 -->
-    <div style="margin-top:5px;">
-        <label style="display:inline-flex; align-items:center; cursor:pointer;">
-            <input type="checkbox" id="chkHideImgNum" style="width:auto; margin-right:5px;">
-            🔢 이미지 순서 번호 숨기기 (외부 게시 시)
-        </label>
-    </div>
-    <div class="section-toggle" id="togBubbleShape">💬 말풍선 모양 <span class="arrow">▼</span></div>
-    <div class="section-body" id="secBubbleShape">
-        <div class="radio-group" style="grid-template-columns:1fr 1fr 1fr;">
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsDefault" value="default" checked=""><label for="bsDefault">기본</label></div>
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsRound" value="round"><label for="bsRound">둥글게</label></div>
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsSquare" value="square"><label for="bsSquare">각지게</label></div>
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsCloud" value="cloud"><label for="bsCloud">구름</label></div>
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsFlat" value="flat"><label for="bsFlat">플랫</label></div>
-            <div class="radio-option"><input type="radio" name="bubbleShape" id="bsPill" value="pill"><label for="bsPill">알약</label></div>
-            <div class="radio-option" style="grid-column:span 3;"><input type="radio" name="bubbleShape" id="bsCustom" value="custom"><label for="bsCustom">🎨 직접 꾸미기</label></div>
+    <!-- ━━━ 탭4: 저장 ━━━ -->
+    <div class="stab-panel" id="tabSave">
+        <div>
+            <label>📂 대본 불러오기 (TXT)</label>
+            <input type="file" id="txtUpload" accept=".txt">
         </div>
-        <label style="display:inline-flex; align-items:center; cursor:pointer; margin-top:6px;">
-            <input type="checkbox" id="chkNoTail" style="width:auto; margin-right:5px;"> 꼬리 숨기기
-        </label>
-
-        <!-- 커스텀 말풍선 -->
-        <div id="customBubbleSettings" style="display:none; margin-top:10px; background:#f8f9fa; padding:10px; border-radius:8px; border:1px dashed #ddd;">
-            <h3 style="border:none; font-size:0.85rem; margin-bottom:6px;">🎨 말풍선 직접 설정</h3>
-            <label>전체 라운딩 (px)</label>
-            <div class="slider-row"><input type="range" id="cbRadius" min="0" max="30" value="15" step="1"><span class="slider-val" id="cbRadiusVal">15</span></div>
-            <label style="margin-top:6px;">나의 꼭지 라운딩 (px)</label>
-            <div class="slider-row"><input type="range" id="cbMyCorner" min="0" max="20" value="0" step="1"><span class="slider-val" id="cbMyCornerVal">0</span></div>
-            <label style="margin-top:6px;">상대 꼭지 라운딩 (px)</label>
-            <div class="slider-row"><input type="range" id="cbOtherCorner" min="0" max="20" value="0" step="1"><span class="slider-val" id="cbOtherCornerVal">0</span></div>
-            <label style="margin-top:6px;">패딩 세로 (px)</label>
-            <div class="slider-row"><input type="range" id="cbPadV" min="4" max="20" value="10" step="1"><span class="slider-val" id="cbPadVVal">10</span></div>
-            <label style="margin-top:6px;">패딩 가로 (px)</label>
-            <div class="slider-row"><input type="range" id="cbPadH" min="6" max="24" value="14" step="1"><span class="slider-val" id="cbPadHVal">14</span></div>
-            <label style="margin-top:6px;">그림자 세기</label>
-            <div class="slider-row"><input type="range" id="cbShadow" min="0" max="20" value="1" step="1"><span class="slider-val" id="cbShadowVal">1</span></div>
-            <label style="margin-top:6px;">테두리 두께 (px)</label>
-            <div class="slider-row"><input type="range" id="cbBorderW" min="0" max="4" value="0" step="0.5"><span class="slider-val" id="cbBorderWVal">0</span></div>
-            <div style="display:flex; gap:6px; align-items:center; margin-top:4px;">
-                <label style="margin:0; font-size:0.8rem; white-space:nowrap;">테두리 색</label>
-                <input type="color" id="cbBorderColor" value="#cccccc" style="width:24px;height:24px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+            <h3>저장 / 내보내기</h3>
+            <button class="btn btn-reset" id="btnReset">🗑️ 초기화</button>
+            <div style="display:flex; gap:5px;">
+                <button class="btn btn-save-img" id="btnSaveFull" style="flex:1">📷 이미지</button>
+                <button class="btn btn-save-img" id="btnSaveSplit" style="flex:1">📱 분할저장</button>
             </div>
+            <button class="btn btn-save-txt" id="btnSaveTxt">💾 TXT 저장</button>
+            <button class="btn btn-copy" id="btnCopyHtml">📋 HTML 코드 복사</button>
         </div>
-    </div>
-
-    <!-- 커스텀 색상 -->
-    <div id="customThemeSettings" style="display:none; background:#fff; padding:12px; border-radius:8px; border:2px dashed #ddd; margin-top:10px;">
-        <h3 style="margin-bottom:8px; border:none; font-size:0.85rem;">🎨 색상 상세 설정</h3>
-        <div class="color-grid">
-            <div class="color-item"><span>상단 배경</span><input type="color" id="customHeaderBg" value="#6c5ce7"></div>
-            <div class="color-item"><span>상단 글자</span><input type="color" id="customHeaderTxt" value="#ffffff"></div>
-            <div class="color-item"><span>채팅 배경</span><input type="color" id="customChatBg" value="#e9e9f3"></div>
-            <div class="color-item"><span>테두리 색</span><input type="color" id="customBorderCol" value="#333333"></div>
-            <div class="color-item"><span>나의 배경</span><input type="color" id="customMyBg" value="#6c5ce7"></div>
-            <div class="color-item"><span>나의 글자</span><input type="color" id="customMyTxt" value="#ffffff"></div>
-            <div class="color-item"><span>상대 배경</span><input type="color" id="customOtherBg" value="#ffffff"></div>
-            <div class="color-item"><span>상대 글자</span><input type="color" id="customOtherTxt" value="#333333"></div>
-            <div class="color-item"><span>이름표 색</span><input type="color" id="customNameTxt" value="#555555"></div>
-            <div class="color-item"><span>시스템 색</span><input type="color" id="customSystemTxt" value="#888888"></div>
-            <div class="color-item"><span>날짜 배경</span><input type="color" id="customDateBg" value="#cccccc"></div>
-            <div class="color-item"><span>날짜 글자</span><input type="color" id="customDateTxt" value="#ffffff"></div>
-            <div class="color-item"><span>영어 병기</span><input type="color" id="customEnTxt" value="#64748b"></div>
-            <div class="color-item"><span>지문 배경</span><input type="color" id="customNarBg" value="#f8fafc"></div>
-            <div class="color-item"><span>지문 테두리</span><input type="color" id="customNarBorder" value="#cbd5e1"></div>
-            <div class="color-item"><span>지문 글자</span><input type="color" id="customNarTxt" value="#475569"></div>        </div>
-        <div style="border-top:1px solid #eee; padding-top:8px;">
-            <label style="font-size:0.8rem; color:#666;">🔗 테마 코드 (JSON)</label>
-            <div style="display:flex; gap:5px; margin-bottom:5px;">
-                <input type="text" id="themeCodeInput" placeholder="테마 코드 붙여넣기" style="font-size:0.8rem;">
-                <button class="btn" id="btnApplyTheme" style="width:auto; margin:0; padding:5px 10px; background:#555; color:white; font-size:0.8rem;">적용</button>
-            </div>
-            <button class="btn" id="btnExportTheme" style="margin:0; background:#eee; color:#333; font-size:0.8rem; border:1px solid #ccc;">📤 현재 테마 코드 복사</button>
-        </div>
-    </div>
-
-    <div style="margin-top:8px; border-top:1px solid #eee; padding-top:8px;">
-        <label>📂 대본 불러오기 (TXT)</label>
-        <input type="file" id="txtUpload" accept=".txt">
-    </div>
-    <div style="margin-top:auto; display:flex; flex-direction:column; gap:6px;">
-        <h3>저장 / 내보내기</h3>
-        <button class="btn btn-reset" id="btnReset">🗑️ 초기화</button>
-        <div style="display:flex; gap:5px;">
-            <button class="btn btn-save-img" id="btnSaveFull" style="flex:1">📷 이미지</button>
-            <button class="btn btn-save-img" id="btnSaveSplit" style="flex:1">📱 분할저장</button>
-        </div>
-        <button class="btn btn-save-txt" id="btnSaveTxt">💾 TXT 저장</button>
-        <button class="btn btn-copy" id="btnCopyHtml">📋 HTML 코드 복사</button>
     </div>
 </div>
 
+<!-- ===== 입력 패널 ===== -->
 <!-- ===== 입력 패널 ===== -->
 <div class="panel input-panel" role="region" aria-label="메시지 입력">
     <button class="btn-editor" onclick="SE.open()">📝 대본 에디터 열기</button>
@@ -1036,32 +1007,40 @@
             zoomSlider.dispatchEvent(new Event('input'));
         },{passive:false});
  
-        // 열기: Promise 반환 → 적용 시 resolve(dataUrl), 취소 시 resolve(null)
+        // 공통 초기화
+        function initCrop(resolve){
+            _resolve=resolve;
+            img.onload=function(){
+                natW=img.naturalWidth; natH=img.naturalHeight;
+                const minDim=Math.min(natW,natH);
+                const initScale=SIZE/minDim;
+                scale=initScale;
+                zoomSlider.min=Math.floor(initScale*100);
+                zoomSlider.max=Math.floor(initScale*100*4);
+                zoomSlider.value=Math.floor(initScale*100);
+                zoomVal.textContent=zoomSlider.value+'%';
+                ox=(SIZE-natW*scale)/2;
+                oy=(SIZE-natH*scale)/2;
+                clamp();render();
+                overlay.classList.add('open');
+            };
+        }
+        // 파일로 열기
         function open(file){
             return new Promise((resolve)=>{
-                _resolve=resolve;
+                initCrop(resolve);
                 const reader=new FileReader();
-                reader.onload=function(e){
-                    img.src=e.target.result;
-                    img.onload=function(){
-                        natW=img.naturalWidth; natH=img.naturalHeight;
-                        // 이미지를 원형에 맞게 초기 스케일 계산
-                        // 짧은 변이 원형 크기에 맞도록
-                        const minDim=Math.min(natW,natH);
-                        const initScale=SIZE/minDim;
-                        scale=initScale;
-                        zoomSlider.min=Math.floor(initScale*100);
-                        zoomSlider.max=Math.floor(initScale*100*4);
-                        zoomSlider.value=Math.floor(initScale*100);
-                        zoomVal.textContent=zoomSlider.value+'%';
-                        // 중앙 정렬
-                        ox=(SIZE-natW*scale)/2;
-                        oy=(SIZE-natH*scale)/2;
-                        clamp();render();
-                        overlay.classList.add('open');
-                    };
-                };
+                reader.onload=function(e){ img.src=e.target.result; };
                 reader.readAsDataURL(file);
+            });
+        }
+        // URL로 열기
+        function openUrl(url){
+            return new Promise((resolve)=>{
+                initCrop(resolve);
+                img.crossOrigin='anonymous';
+                img.src=url;
+                img.onerror=function(){ showToast('이미지를 불러올 수 없습니다.','error'); resolve(null); };
             });
         }
  
@@ -1092,7 +1071,7 @@
             _resolve=null;
         });
  
-        return{open};
+        return{open,openUrl};
     })();
 
     let editingElement = null;
@@ -1118,30 +1097,46 @@
         });
         list.innerHTML=h;
     }
+    // 파일 선택 즉시 크롭 → 임시 저장
+    let _charCroppedData='';
+    $('charAddFile').addEventListener('change',function(){
+        if(!this.files[0])return;
+        Crop.open(this.files[0]).then(result=>{
+            _charCroppedData=result||'';
+            this.value='';
+            if(result) showToast('✂️ 크롭 완료! 이름 입력 후 등록하세요.','success');
+        });
+    });
     window.addCharIcon = function(){
-            const name=$('charAddName').value.trim();
-            if(!name){ showToast('이름을 입력하세요.','error'); return; }
-            const fileInput=$('charAddFile');
-            function doRegister(imgSrc){
-                const src=imgSrc||$('charAddUrl').value.trim()||'';
-                const bg=$('charAddBg').value;
-                const initial=$('charAddInitial').value.trim()||name.charAt(0);
-                const crop=$('charAddCrop')?$('charAddCrop').value:'center';
-                charIcons[name]={src,bg,initial,crop};
-                renderCharIconList();
-                refreshAllAvatars();
-                $('charAddName').value=''; fileInput.value=''; $('charAddUrl').value=''; $('charAddInitial').value='';
-                showToast(`🎭 "${name}" 아이콘 등록!`,'success');
-            }
-            if(fileInput.files[0]){
-                Crop.open(fileInput.files[0]).then(result=>{
-                    if(result) doRegister(result);
-                    fileInput.value='';
-                });
-            } else {
-                doRegister(null);
-            }
-        };
+        const name=$('charAddName').value.trim();
+        if(!name){ showToast('이름을 입력하세요.','error'); return; }
+        const urlVal=$('charAddUrl').value.trim();
+        function doRegister(imgSrc){
+            const src=imgSrc||'';
+            const bg=$('charAddBg').value;
+            const initial=$('charAddInitial').value.trim()||name.charAt(0);
+            charIcons[name]={src,bg,initial};
+            renderCharIconList();
+            refreshAllAvatars();
+            $('charAddName').value=''; $('charAddFile').value=''; $('charAddUrl').value=''; $('charAddInitial').value='';
+            _charCroppedData='';
+            showToast(`🎭 "${name}" 아이콘 등록!`,'success');
+        }
+        // 크롭된 이미지가 있으면 그걸 사용
+        if(_charCroppedData){
+            doRegister(_charCroppedData);
+        }
+        // URL이 있으면 크롭 모달 열기
+        else if(urlVal && isValidUrl(urlVal)){
+            Crop.openUrl(urlVal).then(result=>{
+                if(result) doRegister(result);
+            });
+        }
+        // 둘 다 없으면 배경색+이니셜만으로 등록
+        else {
+            doRegister('');
+        }
+    };
     window.removeCharIcon = function(name){
         delete charIcons[name];
         renderCharIconList();
@@ -1181,7 +1176,17 @@
     };
 
     // ===== 접기/펼치기 =====
-    [['togContainerMode','secContainerMode'],['togBgSettings','secBgSettings'],['togAvatarSettings','secAvatarSettings'],['togBubbleShape','secBubbleShape'],['togFontDetail','secFontDetail']].forEach(([t,s])=>{
+    // ===== 설정 탭 전환 =====
+    $qa('.stab-btn').forEach(btn=>{
+        btn.addEventListener('click',function(){
+            $qa('.stab-btn').forEach(b=>b.classList.remove('active'));
+            $qa('.stab-panel').forEach(p=>p.classList.remove('active'));
+            this.classList.add('active');
+            $(this.dataset.tab).classList.add('active');
+        });
+    });
+    // 남은 접기/펼치기 (입력 패널용)
+    [].forEach(([t,s])=>{
         $(t).addEventListener('click',()=>{ $(t).classList.toggle('open'); $(s).classList.toggle('open'); });
     });
 
@@ -1592,7 +1597,7 @@
             // bubble 클래스 제거 전에 저장
             editingElement.className='';
             if(t==='my'){editingElement.className='msg-wrapper my-msg-wrapper editing'+hcl;editingElement.innerHTML=`<div class="msg-content-col"><div class="message">${mh}</div></div>${buildAvatarHtml('my','')}`;}
-            else if(t==='other'){editingElement.className='msg-wrapper other-msg-wrapper editing'+hcl;const fn=n.trim()||'알 수 없음';editingElement.dataset.name=fn;const pr=editingElement.previousElementSibling;const sm=pr&&pr.classList.contains('other-msg-wrapper')&&pr.dataset.name===fn;const nh2=sm?'':`<div class="name-tag">${escapeHtml(fn)}</div>`;const av=pav?buildPerAvatarHtml(pav,fn):buildAvatarHtml('other',fn);editingElement.innerHTML=`${av}<div class="msg-content-col">${nh2}<div class="message">${mh}</div></div>${updMetaHtml}`;}
+            else if(t==='other'){editingElement.className='msg-wrapper other-msg-wrapper editing'+hcl;const fn=n.trim()||'알 수 없음';editingElement.dataset.name=fn;const pr=editingElement.previousElementSibling;const sm=pr&&pr.classList.contains('other-msg-wrapper')&&pr.dataset.name===fn;const nh2=sm?'':`<div class="name-tag">${escapeHtml(fn)}</div>`;let av='';if(pav)av=buildPerAvatarHtml(pav,fn);else if(getCharIconHtml(fn))av=getCharIconHtml(fn);else av=buildAvatarHtml('other',fn);editingElement.innerHTML=`${av}<div class="msg-content-col">${nh2}<div class="message">${mh}</div></div>${updMetaHtml}`;}
             else if(t==='narration'){editingElement.className='narration-msg editing';let nH=`<div class="narration-ko">${sc}</div>`;if(enTxt)nH+=`<div class="narration-en">${enTxt}</div>`;editingElement.innerHTML=nH;}
             else if(t==='system'){editingElement.className='system-msg editing';editingElement.innerHTML=sc;}
             else if(t==='part'){editingElement.className='date-divider editing';editingElement.innerHTML=`<span>${sc}</span>`;}
@@ -2534,8 +2539,17 @@ ${bodyIndented}
                 });
             }
         });
+        // 나의 아이콘 URL → 크롭
+        $('myAvatarUrl').addEventListener('change',function(){
+            const url=this.value.trim();
+            if(url && isValidUrl(url)){
+                Crop.openUrl(url).then(result=>{
+                    if(result){ myAvatarData=result; $('myAvatarUrl').value='(크롭 적용됨)'; refreshAllAvatars(); }
+                });
+            }
+        });
         // 나머지 아이콘 관련 이벤트
-        ['myAvatarUrl','otherAvatarBg','otherAvatarInitial','myAvatarBg','myAvatarInitial'].forEach(id=>{
+        ['otherAvatarBg','otherAvatarInitial','myAvatarBg','myAvatarInitial'].forEach(id=>{
             $(id).addEventListener('change',()=>loadAvatarData().then(refreshAllAvatars));
             if($(id).type==='text'||$(id).type==='color')$(id).addEventListener('input',()=>loadAvatarData().then(refreshAllAvatars));
         });
