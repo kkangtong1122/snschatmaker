@@ -1076,7 +1076,7 @@
 
     let editingElement = null;
     let myAvatarData = '', otherAvatarData = '';
-    let charIcons = {};  // { "이름": { src:"", bg:"#색상", initial:"글" } }
+    let charIcons = window._charIcons = {};  // { "이름": { src:"", bg:"#색상", initial:"글" } }
 
     // ===== 캐릭터별 아이콘 관리 =====
     function renderCharIconList(){
@@ -1616,6 +1616,7 @@
     function resetChat(){ if(confirm('초기화?')){els.chatArea.innerHTML='';cancelEdit();updateMsgCount();showToast('초기화 완료','info');} }
     function updateMsgCount(){ const n=els.chatArea.querySelectorAll('.msg-wrapper,.system-msg,.date-divider,.narration-msg').length; $('msgCount').textContent=n+'개'; }
     window.updateMsgCount = updateMsgCount;
+    window.renderCharIconList = renderCharIconList;
     window.seCancelEdit = cancelEdit;
     /** textarea 자동 높이 조절 */
     function autoResizeTextarea(){ const ta=els.msgContent; ta.style.height='auto'; ta.style.height=Math.min(ta.scrollHeight,120)+'px'; }
@@ -3084,13 +3085,15 @@ const SE = (function(){
         const ca=document.getElementById('chatArea');
         if(ca)ca.innerHTML='';
         if(typeof window.seCancelEdit==='function')window.seCancelEdit();
-        if(typeof chars!=='undefined'){
+        // 캐릭터 → 아이콘 동기화
+        const ci=window._charIcons;
+        if(ci && typeof chars!=='undefined'){
             chars.forEach(function(ch){
-                if(ch.name && !charIcons[ch.name]){
-                    charIcons[ch.name]={src:'', bg:'#74b9ff', initial:ch.emoji||ch.name.charAt(0)};
+                if(ch.name && !ci[ch.name]){
+                    ci[ch.name]={src:'', bg:'#74b9ff', initial:ch.emoji||ch.name.charAt(0)};
                 }
             });
-            if(typeof renderCharIconList==='function') renderCharIconList();
+            if(typeof window.renderCharIconList==='function') window.renderCharIconList();
         }
         lines.forEach(l=>{
             if(typeof window.createMsg==='function')
