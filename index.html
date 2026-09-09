@@ -83,6 +83,61 @@
     .btn-cancel { background: #b2bec3; color: white; }
     .helper-text { font-size: 0.75rem; color: #999; text-align: center; margin-top: 8px; line-height: 1.3; }
 
+    /* ===== 크롭 모달 ===== */
+    .crop-overlay {
+        display:none; position:fixed; inset:0; z-index:99999;
+        background:rgba(0,0,0,0.85);
+        flex-direction:column; align-items:center; justify-content:center;
+        gap:16px;
+    }
+    .crop-overlay.open { display:flex; }
+    .crop-title {
+        color:#fff; font-size:0.95rem; font-weight:700;
+        text-align:center;
+    }
+    .crop-stage {
+        position:relative; width:240px; height:240px;
+        border-radius:50%; overflow:hidden;
+        box-shadow:0 0 0 3000px rgba(0,0,0,0.6);
+        cursor:grab; touch-action:none; user-select:none;
+    }
+    .crop-stage:active { cursor:grabbing; }
+    .crop-stage img {
+        position:absolute; top:0; left:0;
+        transform-origin:0 0;
+        pointer-events:none;
+        -webkit-user-drag:none;
+    }
+    .crop-ring {
+        position:absolute; inset:0;
+        border:2px solid rgba(255,255,255,0.6);
+        border-radius:50%; pointer-events:none;
+    }
+    .crop-controls {
+        display:flex; align-items:center; gap:10px;
+        background:rgba(255,255,255,0.1);
+        padding:8px 16px; border-radius:20px;
+    }
+    .crop-controls label { color:#ccc; font-size:0.78rem; white-space:nowrap; }
+    .crop-controls input[type="range"] {
+        width:140px; height:4px; -webkit-appearance:none;
+        background:rgba(255,255,255,0.3); border-radius:2px; outline:none;
+    }
+    .crop-controls input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance:none; width:16px; height:16px;
+        border-radius:50%; background:#fff; cursor:pointer;
+    }
+    .crop-zoom-val { color:#fff; font-size:0.75rem; min-width:32px; text-align:center; }
+    .crop-btns { display:flex; gap:10px; }
+    .crop-btns button {
+        padding:8px 24px; border:none; border-radius:8px;
+        font-size:0.88rem; font-weight:700; cursor:pointer;
+    }
+    .crop-btn-apply { background:#6c5ce7; color:#fff; }
+    .crop-btn-apply:hover { background:#5a4bd6; }
+    .crop-btn-cancel { background:rgba(255,255,255,0.15); color:#fff; }
+    .crop-btn-cancel:hover { background:rgba(255,255,255,0.25); }
+ 
     /* 토스트 */
     .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
     .toast { padding: 12px 20px; border-radius: 10px; color: white; font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.15); animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards; max-width: 320px; }
@@ -103,6 +158,18 @@
     .slider-row input[type="range"] { flex:1; height:6px; -webkit-appearance:none; background:#ddd; border-radius:3px; outline:none; }
     .slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:#6c5ce7; cursor:pointer; border:2px solid white; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
     .slider-val { min-width:36px; text-align:right; font-size:0.8rem; color:#666; font-weight:bold; }
+    /* 캐릭터 아이콘 매핑 테이블 */
+    .char-icon-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+    .char-icon-row { display:flex; align-items:center; gap:6px; background:#f8f9fa; padding:6px 8px; border-radius:6px; }
+    .char-icon-row .char-name { font-size:0.82rem; font-weight:bold; color:#333; min-width:50px; }
+    .char-icon-row .char-preview { width:28px; height:28px; border-radius:50%; background:#ddd; background-size:cover; background-position:center; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:bold; color:white; overflow:hidden; }
+    .char-icon-row .char-preview img { width:100%; height:100%; object-fit:cover; }
+    .char-icon-row .char-del { background:none; border:none; color:#d63031; cursor:pointer; font-size:0.85rem; padding:2px 4px; flex-shrink:0; }
+    .char-icon-row .char-del:hover { background:#fee; border-radius:4px; }
+    .char-add-form { display:flex; gap:4px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+    .char-add-form input { font-size:0.8rem; padding:4px 6px; }
+    .char-add-form button { background:#6c5ce7; color:white; border:none; padding:4px 10px; border-radius:5px; font-size:0.8rem; font-weight:bold; cursor:pointer; white-space:nowrap; }
+    .char-add-form button:hover { opacity:0.9; }
 
     .bg-preview { width:100%; height:60px; border-radius:6px; border:1px dashed #ccc; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; color:#999; font-size:0.75rem; overflow:hidden; position:relative; margin-top:4px; }
 
@@ -136,7 +203,7 @@
     .msg-wrapper.editing, .system-msg.editing, .date-divider.editing { border:2px dashed #6c5ce7; border-radius:10px; opacity:0.8; }
     .msg-content-col { display:flex; flex-direction:column; min-width:0; flex:1; }
     .msg-avatar { width:36px; height:36px; border-radius:50%; flex-shrink:0; background:#ddd; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:bold; color:white; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.15); }
-    .msg-avatar img { width:100%; height:100%; object-fit:cover; }
+    .msg-avatar img { width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1; }
     .msg-avatar-spacer { flex-shrink:0; visibility:hidden; }
 
     /* 빠른 입력 바 */
@@ -162,6 +229,17 @@
     .msg-image { max-width:100%; border-radius:10px; margin-bottom:8px; display:block; align-self:flex-start; }
     .msg-image-error { display:flex; align-items:center; justify-content:center; width:100%; min-height:60px; background:#f0f0f0; border-radius:10px; margin-bottom:8px; color:#999; font-size:0.8rem; }
     .name-tag { font-size:0.75rem; margin-bottom:4px; margin-left:2px; opacity:0.8; }
+
+    /* 메타 정보 (시간 + 읽음) */
+    .msg-meta { display:flex; flex-direction:column; align-items:flex-end; justify-content:flex-end; gap:1px; flex-shrink:0; min-width:0; }
+    .my-msg-wrapper .msg-meta { order:-1; align-items:flex-end; }
+    .other-msg-wrapper .msg-meta { align-items:flex-start; }
+    .msg-time { font-size:0.65rem; color:#999; white-space:nowrap; line-height:1.3; }
+    .msg-read { font-size:0.62rem; color:#999; white-space:nowrap; line-height:1.2; }
+    .msg-unread { font-size:0.62rem; color:#f0b800; font-weight:bold; white-space:nowrap; line-height:1.2; }
+    .theme-kakao .msg-unread { color:#eb6100; }
+    .theme-line .msg-unread { color:#4caf50; }
+
 
     .btn-msg-delete { position:absolute; top:-8px; right:-8px; width:22px; height:22px; background:#ff5252; color:white; border-radius:50%; text-align:center; line-height:20px; font-size:12px; font-weight:bold; cursor:pointer; display:none; box-shadow:0 2px 5px rgba(0,0,0,0.2); z-index:20; border:none; }
     .btn-msg-delete:focus { outline:2px solid #ff5252; outline-offset:2px; display:block; }
@@ -249,6 +327,9 @@
 
     /* 꼬리 숨기기 */
     .phone-container.no-tail .message::after { display:none !important; }
+ 
+    /* 이미지 순서 번호 숨기기 */
+    .phone-container.hide-img-num .image-number-badge { display:none !important; }
 
     /* 커스텀 말풍선 — CSS 변수 기반 */
     .phone-container.bubble-custom .message {
@@ -277,6 +358,10 @@
     .phone-container.theme-custom .other-msg-wrapper .message::after { border-right-color: var(--other-bg, #fff) !important; }
     .phone-container.theme-custom .name-tag { color: var(--name-txt, #555) !important; }
     .phone-container.theme-custom .system-msg { color: var(--system-txt, #888) !important; }
+    .phone-container.theme-custom .narration-msg { background: var(--nar-bg, rgba(255,255,255,0.45)) !important; border-color: var(--nar-border, rgba(0,0,0,0.15)) !important; }
+    .phone-container.theme-custom .narration-msg .narration-ko { color: var(--nar-txt, #475569) !important; }
+    .phone-container.theme-custom .msg-en { color: var(--en-txt, #64748b) !important; border-top-color: color-mix(in srgb, var(--en-txt, #64748b) 30%, transparent) !important; }
+    .phone-container.theme-custom .narration-msg .narration-en { color: var(--en-txt, #94a3b8) !important; }
     .phone-container.theme-custom .date-divider span { color: var(--date-txt, #fff) !important; background: var(--date-bg, rgba(0,0,0,0.1)) !important; }
 
     .theme-default .header { background:#6c5ce7; color:white; }
@@ -393,6 +478,9 @@
     .fl-text{flex:1;min-width:0;border:1px solid #e5e7eb;border-radius:7px;padding:6px 10px;outline:none;line-height:1.5;white-space:pre-wrap;word-break:break-all;background:#fff;font-size:.85rem;}
     .fl-text:focus{border-color:#6c5ce7;box-shadow:0 0 0 2px rgba(108,92,231,.1);}
     .fl-hid{flex-shrink:0;margin-top:4px;font-size:.75rem;}
+    .fl-timebtn{flex-shrink:0;padding:2px 6px;border:1px solid #e5e7eb;background:#fff;border-radius:5px;font-size:.68rem;color:#94a3b8;cursor:pointer;white-space:nowrap;margin-top:1px;}
+    .fl-timebtn:hover{background:#f0f9ff;color:#0369a1;border-color:#bae6fd;}
+    .fl-timebtn.has-time{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd;font-weight:600;}
     .fl-hidbtn,.fl-del{flex-shrink:0;width:24px;height:24px;border:none;background:#f1f5f9;color:#94a3b8;border-radius:6px;font-size:.7rem;cursor:pointer;margin-top:1px;}
     .fl-hidbtn:hover{background:#ede9fe;color:#6c5ce7;}
     .fl-del:hover{background:#fee2e2;color:#dc2626;}
@@ -449,6 +537,25 @@
 
 <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
+<!-- 크롭 모달 -->
+<div class="crop-overlay" id="cropOverlay">
+    <div class="crop-title">프로필 영역을 지정하세요</div>
+    <div class="crop-stage" id="cropStage">
+        <img id="cropImg" src="" alt="">
+        <div class="crop-ring"></div>
+    </div>
+    <div class="crop-controls">
+        <label>축소</label>
+        <input type="range" id="cropZoom" min="100" max="400" value="100" step="5">
+        <label>확대</label>
+        <span class="crop-zoom-val" id="cropZoomVal">100%</span>
+    </div>
+    <div class="crop-btns">
+        <button class="crop-btn-cancel" id="cropBtnCancel">취소</button>
+        <button class="crop-btn-apply" id="cropBtnApply">적용</button>
+    </div>
+</div>
+ 
 <!-- ===== 설정 패널 ===== -->
 <div class="panel settings-panel" role="region" aria-label="기본 설정">
     <h2>⚙️ 기본 설정</h2>
@@ -470,8 +577,8 @@
             <button class="btn" id="btnPresetDel" title="선택한 프리셋 삭제" style="width:32px; height:32px; padding:0; margin:0; background:#ff5252; color:white; font-size:1rem; line-height:32px; text-align:center; flex-shrink:0; border-radius:6px;">🗑️</button>
         </div>
     </div>
-    <div>
-        <label>글꼴</label>
+<div>
+        <label>📝 기본 글꼴 (한국어 대사)</label>
         <div style="display:flex; gap:4px; align-items:center;">
             <select id="fontSelector" style="flex:1; min-width:0;">
                 <option value="">기본</option>
@@ -492,6 +599,57 @@
             </select>
             <input type="number" id="fontSize" min="8" max="40" value="15" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="글꼴 크기 (px)">
             <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
+        </div>
+    </div>
+    <div class="section-toggle" id="togFontDetail">🔤 글꼴 세부 설정 (영어 병기 · 지문) <span class="arrow">▼</span></div>
+    <div class="section-body" id="secFontDetail">
+        <div style="background:#f0f0ff; padding:10px; border-radius:8px; margin-bottom:8px;">
+            <label style="font-size:0.82rem; color:#6c5ce7; margin-bottom:6px;">🌐 영어 병기</label>
+            <div style="display:flex; gap:4px; align-items:center;">
+                <select id="enFontSelector" style="flex:1; min-width:0; font-size:0.85rem;">
+                    <option value="">(기본 글꼴 따라감)</option>
+                    <option value="malgun">맑은 고딕</option>
+                    <option value="nanum-gothic">나눔고딕</option>
+                    <option value="nanum-myeongjo">나눔명조</option>
+                    <option value="ridi-batang">리디바탕</option>
+                    <option value="gangwon-edu">강원교육모두체</option>
+                    <option value="ongleub-parkdahyun">온글잎박다현체</option>
+                    <option value="dotum">돋움</option>
+                    <option value="gulim">굴림</option>
+                    <option value="batang">바탕</option>
+                    <option value="gungsuh">궁서</option>
+                    <option value="arial">Arial</option>
+                    <option value="times">Times New Roman</option>
+                    <option value="georgia">Georgia</option>
+                    <option value="courier">Courier New</option>
+                </select>
+                <input type="number" id="enFontSize" min="8" max="40" value="13" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="영어 크기 (px)">
+                <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
+            </div>
+        </div>
+        <div style="background:#f9f6ee; padding:10px; border-radius:8px;">
+            <label style="font-size:0.82rem; color:#92400e; margin-bottom:6px;">🎬 지문 (나레이션)</label>
+            <div style="display:flex; gap:4px; align-items:center;">
+                <select id="narFontSelector" style="flex:1; min-width:0; font-size:0.85rem;">
+                    <option value="">(기본 글꼴 따라감)</option>
+                    <option value="malgun">맑은 고딕</option>
+                    <option value="nanum-gothic">나눔고딕</option>
+                    <option value="nanum-myeongjo">나눔명조</option>
+                    <option value="ridi-batang">리디바탕</option>
+                    <option value="gangwon-edu">강원교육모두체</option>
+                    <option value="ongleub-parkdahyun">온글잎박다현체</option>
+                    <option value="dotum">돋움</option>
+                    <option value="gulim">굴림</option>
+                    <option value="batang">바탕</option>
+                    <option value="gungsuh">궁서</option>
+                    <option value="arial">Arial</option>
+                    <option value="times">Times New Roman</option>
+                    <option value="georgia">Georgia</option>
+                    <option value="courier">Courier New</option>
+                </select>
+                <input type="number" id="narFontSize" min="8" max="40" value="14" step="1" style="width:52px; flex-shrink:0; text-align:center; padding:6px 2px;" title="지문 크기 (px)">
+                <span style="font-size:0.75rem; color:#999; flex-shrink:0;">px</span>
+            </div>
         </div>
     </div>
     <div style="margin-top:5px;">
@@ -565,23 +723,54 @@
                     <input type="text" id="myAvatarInitial" value="나" maxlength="2" style="width:40px; font-size:0.8rem; padding:4px; text-align:center;">
                 </div>
             </div>
-            <div style="background:#f8f9fa; padding:8px; border-radius:6px;">
-                <label style="font-size:0.8rem;">🔵 상대 기본 아이콘</label>
-                <input type="file" id="otherAvatarUpload" accept="image/*">
-                <input type="text" id="otherAvatarUrl" placeholder="이미지 URL" style="margin-top:4px; font-size:0.8rem;">
-                <div style="display:flex; gap:4px; margin-top:4px; align-items:center;">
-                    <label style="font-size:0.8rem; margin:0; white-space:nowrap;">배경색</label>
-                    <input type="color" id="otherAvatarBg" value="#74b9ff" style="width:24px;height:24px;">
-                    <label style="font-size:0.8rem; margin:0 0 0 8px; white-space:nowrap;">이니셜</label>
-                    <input type="text" id="otherAvatarInitial" value="" maxlength="2" style="width:40px; font-size:0.8rem; padding:4px; text-align:center;">
+            <!-- 상대 기본 아이콘 (숨김 - 캐릭터별 아이콘 사용) -->
+            <input type="file" id="otherAvatarUpload" accept="image/*" style="display:none;">
+            <input type="text" id="otherAvatarUrl" value="" style="display:none;">
+            <input type="color" id="otherAvatarBg" value="#74b9ff" style="display:none;">
+            <input type="text" id="otherAvatarInitial" value="" style="display:none;">
+           <label style="margin-top:8px;">아이콘 크기</label>
+            <div class="slider-row"><input type="range" id="avatarSize" min="24" max="48" value="36" step="2"><span class="slider-val" id="avatarSizeVal">36</span></div>
+
+            <!-- 캐릭터별 아이콘 -->
+            <div style="margin-top:12px; padding-top:10px; border-top:1px solid #eee;">
+                <label style="font-size:0.85rem; color:#6c5ce7; margin-bottom:6px;">🎭 캐릭터별 아이콘 (이름 자동 매칭)</label>
+                <div class="char-icon-list" id="charIconList">
+                    <div style="text-align:center; color:#999; font-size:0.78rem; padding:8px;">등록된 캐릭터가 없습니다</div>
+                </div>
+                <div class="char-add-form">
+                    <input type="text" id="charAddName" placeholder="이름" style="width:70px;">
+                    <input type="file" id="charAddFile" accept="image/*" style="flex:1; min-width:0;">
+                    <input type="text" id="charAddUrl" placeholder="이미지 URL" style="flex:1; min-width:0;">
+                    <div style="display:flex; gap:3px; align-items:center;">
+                        <input type="color" id="charAddBg" value="#74b9ff" style="width:24px; height:24px;" title="배경색">
+                        <input type="text" id="charAddInitial" placeholder="글자" maxlength="2" style="width:32px; text-align:center;">
+                    </div>
+                    <select id="charAddCrop" style="width:60px; font-size:0.78rem; padding:2px;" title="크롭 위치">
+                        <option value="center">중앙</option>
+                        <option value="top">위</option>
+                        <option value="bottom">아래</option>
+                        <option value="left">왼쪽</option>
+                        <option value="right">오른쪽</option>
+                    </select>
+                    <button onclick="addCharIcon()">등록</button>
+
+                </div>
+                <div style="font-size:0.72rem; color:#999; margin-top:4px; line-height:1.4;">
+                    이름이 일치하는 상대방 메시지에 자동 적용됩니다.<br>
+                    이미지 또는 배경색+글자 중 하나만 설정해도 됩니다.
                 </div>
             </div>
-            <label style="margin-top:8px;">아이콘 크기</label>
-            <div class="slider-row"><input type="range" id="avatarSize" min="24" max="48" value="36" step="2"><span class="slider-val" id="avatarSizeVal">36</span></div>
         </div>
     </div>
 
+
     <!-- 말풍선 모양 -->
+    <div style="margin-top:5px;">
+        <label style="display:inline-flex; align-items:center; cursor:pointer;">
+            <input type="checkbox" id="chkHideImgNum" style="width:auto; margin-right:5px;">
+            🔢 이미지 순서 번호 숨기기 (외부 게시 시)
+        </label>
+    </div>
     <div class="section-toggle" id="togBubbleShape">💬 말풍선 모양 <span class="arrow">▼</span></div>
     <div class="section-body" id="secBubbleShape">
         <div class="radio-group" style="grid-template-columns:1fr 1fr 1fr;">
@@ -637,7 +826,10 @@
             <div class="color-item"><span>시스템 색</span><input type="color" id="customSystemTxt" value="#888888"></div>
             <div class="color-item"><span>날짜 배경</span><input type="color" id="customDateBg" value="#cccccc"></div>
             <div class="color-item"><span>날짜 글자</span><input type="color" id="customDateTxt" value="#ffffff"></div>
-        </div>
+            <div class="color-item"><span>영어 병기</span><input type="color" id="customEnTxt" value="#64748b"></div>
+            <div class="color-item"><span>지문 배경</span><input type="color" id="customNarBg" value="#f8fafc"></div>
+            <div class="color-item"><span>지문 테두리</span><input type="color" id="customNarBorder" value="#cbd5e1"></div>
+            <div class="color-item"><span>지문 글자</span><input type="color" id="customNarTxt" value="#475569"></div>        </div>
         <div style="border-top:1px solid #eee; padding-top:8px;">
             <label style="font-size:0.8rem; color:#666;">🔗 테마 코드 (JSON)</label>
             <div style="display:flex; gap:5px; margin-bottom:5px;">
@@ -695,6 +887,28 @@
         <label style="font-size:0.8rem; color:#6c5ce7;">🖼️ 이 메시지 전용 아이콘 (선택)</label>
         <input type="file" id="perMsgAvatarUpload" accept="image/*">
         <input type="text" id="perMsgAvatarUrl" placeholder="아이콘 이미지 URL" style="margin-top:4px; font-size:0.8rem;">
+    </div>
+
+    <!-- 타임스탬프 -->
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+        <label style="display:inline-flex; align-items:center; cursor:pointer; margin:0; font-size:0.85rem;">
+            <input type="checkbox" id="chkTimestamp" style="width:auto; margin-right:5px;">
+            🕐 시간 표시
+        </label>
+        <input type="text" id="msgTimestamp" placeholder="오후 3:24" 
+               style="width:100px; font-size:0.82rem; padding:4px 6px; display:none;">
+    </div>
+
+    <!-- 읽음 표시 -->
+    <div id="readStatusGroup" style="display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:0.82rem; flex-wrap:wrap;">
+        <span style="font-size:0.85rem;">💬</span>
+        <label style="cursor:pointer;"><input type="radio" name="readStatus" value="none" checked style="width:auto;"> 없음</label>
+        <label style="cursor:pointer;"><input type="radio" name="readStatus" value="read" style="width:auto;"> 읽음</label>
+        <label style="cursor:pointer; display:flex; align-items:center; gap:3px;">
+            <input type="radio" name="readStatus" value="unread" style="width:auto;"> 안읽음
+            <input type="number" id="unreadCount" value="1" min="1" max="300"
+                   style="width:42px; font-size:0.8rem; padding:2px 4px; text-align:center; display:none;">
+        </label>
     </div>
 
     <!-- 영어 병기 토글 -->
@@ -769,8 +983,185 @@
     function readFile(f) { return new Promise((res,rej)=>{ if(!f){res(null);return;} const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=()=>rej(new Error('읽기실패')); r.readAsDataURL(f); }); }
     function showToast(m,t='info') { const d=document.createElement('div'); d.className=`toast toast-${t}`; d.textContent=m; d.setAttribute('role','alert'); $('toastContainer').appendChild(d); setTimeout(()=>{if(d.parentNode)d.remove()},3000); }
 
+
+    // ===== 크롭 모듈 =====
+    const Crop = (function(){
+        const overlay=$('cropOverlay'), stage=$('cropStage');
+        const img=$('cropImg'), zoomSlider=$('cropZoom'), zoomVal=$('cropZoomVal');
+        const SIZE=240; // 크롭 영역 크기 (CSS와 일치)
+        let scale=1, ox=0, oy=0; // offset x, y
+        let dragging=false, startX=0, startY=0, startOx=0, startOy=0;
+        let natW=0, natH=0; // 원본 이미지 크기
+        let _resolve=null;
+ 
+        function clamp(){
+            // 이미지가 원형 영역 밖으로 빈 공간이 안 보이도록 제한
+            const sw=natW*scale, sh=natH*scale;
+            // 이미지의 왼쪽 끝이 원형 오른쪽보다 왼쪽에 있어야 함
+            ox=Math.min(0, Math.max(SIZE-sw, ox));
+            oy=Math.min(0, Math.max(SIZE-sh, oy));
+        }
+        function render(){
+            img.style.transform=`translate(${ox}px,${oy}px) scale(${scale})`;
+        }
+ 
+        // 마우스 드래그
+        stage.addEventListener('mousedown',e=>{e.preventDefault();dragging=true;startX=e.clientX;startY=e.clientY;startOx=ox;startOy=oy;});
+        window.addEventListener('mousemove',e=>{if(!dragging)return;ox=startOx+(e.clientX-startX);oy=startOy+(e.clientY-startY);clamp();render();});
+        window.addEventListener('mouseup',()=>{dragging=false;});
+ 
+        // 터치 드래그
+        stage.addEventListener('touchstart',e=>{if(!e.touches.length)return;e.preventDefault();dragging=true;startX=e.touches[0].clientX;startY=e.touches[0].clientY;startOx=ox;startOy=oy;},{passive:false});
+        window.addEventListener('touchmove',e=>{if(!dragging||!e.touches.length)return;ox=startOx+(e.touches[0].clientX-startX);oy=startOy+(e.touches[0].clientY-startY);clamp();render();},{passive:false});
+        window.addEventListener('touchend',()=>{dragging=false;});
+ 
+        // 줌
+        zoomSlider.addEventListener('input',()=>{
+            const oldScale=scale;
+            scale=parseInt(zoomSlider.value)/100;
+            zoomVal.textContent=zoomSlider.value+'%';
+            // 줌 중심을 원형 중앙으로 유지
+            const cx=SIZE/2, cy=SIZE/2;
+            ox=cx-(cx-ox)*(scale/oldScale);
+            oy=cy-(cy-oy)*(scale/oldScale);
+            clamp();render();
+        });
+ 
+        // 마우스 휠 줌
+        stage.addEventListener('wheel',e=>{
+            e.preventDefault();
+            const delta=e.deltaY>0?-10:10;
+            const newVal=Math.min(400,Math.max(100,parseInt(zoomSlider.value)+delta));
+            zoomSlider.value=newVal;
+            zoomSlider.dispatchEvent(new Event('input'));
+        },{passive:false});
+ 
+        // 열기: Promise 반환 → 적용 시 resolve(dataUrl), 취소 시 resolve(null)
+        function open(file){
+            return new Promise((resolve)=>{
+                _resolve=resolve;
+                const reader=new FileReader();
+                reader.onload=function(e){
+                    img.src=e.target.result;
+                    img.onload=function(){
+                        natW=img.naturalWidth; natH=img.naturalHeight;
+                        // 이미지를 원형에 맞게 초기 스케일 계산
+                        // 짧은 변이 원형 크기에 맞도록
+                        const minDim=Math.min(natW,natH);
+                        const initScale=SIZE/minDim;
+                        scale=initScale;
+                        zoomSlider.min=Math.floor(initScale*100);
+                        zoomSlider.max=Math.floor(initScale*100*4);
+                        zoomSlider.value=Math.floor(initScale*100);
+                        zoomVal.textContent=zoomSlider.value+'%';
+                        // 중앙 정렬
+                        ox=(SIZE-natW*scale)/2;
+                        oy=(SIZE-natH*scale)/2;
+                        clamp();render();
+                        overlay.classList.add('open');
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+ 
+        // 적용: canvas에 그려서 dataURL 반환
+        $('cropBtnApply').addEventListener('click',()=>{
+            const canvas=document.createElement('canvas');
+            const outSize=360; // 출력 해상도
+            canvas.width=outSize; canvas.height=outSize;
+            const ctx=canvas.getContext('2d');
+            // 원형 클리핑
+            ctx.beginPath();
+            ctx.arc(outSize/2,outSize/2,outSize/2,0,Math.PI*2);
+            ctx.closePath();
+            ctx.clip();
+            // 이미지 그리기 (크롭 영역 → 캔버스 매핑)
+            const ratio=outSize/SIZE;
+            ctx.drawImage(img, ox*ratio, oy*ratio, natW*scale*ratio, natH*scale*ratio);
+            const dataUrl=canvas.toDataURL('image/png');
+            overlay.classList.remove('open');
+            if(_resolve) _resolve(dataUrl);
+            _resolve=null;
+        });
+ 
+        // 취소
+        $('cropBtnCancel').addEventListener('click',()=>{
+            overlay.classList.remove('open');
+            if(_resolve) _resolve(null);
+            _resolve=null;
+        });
+ 
+        return{open};
+    })();
+
     let editingElement = null;
     let myAvatarData = '', otherAvatarData = '';
+    let charIcons = {};  // { "이름": { src:"", bg:"#색상", initial:"글" } }
+
+    // ===== 캐릭터별 아이콘 관리 =====
+    function renderCharIconList(){
+        const list=$('charIconList');
+        const names=Object.keys(charIcons);
+        if(!names.length){ list.innerHTML='<div style="text-align:center; color:#999; font-size:0.78rem; padding:8px;">등록된 캐릭터가 없습니다</div>'; return; }
+        let h='';
+        names.forEach(name=>{
+            const ci=charIcons[name];
+            const previewStyle=ci.src?`background-image:url('${ci.src.replace(/'/g,"\\'")}')`:`background:${ci.bg||'#74b9ff'}`;
+            const previewInner=ci.src?'':(ci.initial||name.charAt(0));
+            h+=`<div class="char-icon-row">
+                <div class="char-preview" style="${previewStyle}">${previewInner}</div>
+                <span class="char-name">${escapeHtml(name)}</span>
+                <span style="flex:1;"></span>
+                <button class="char-del" onclick="removeCharIcon('${name.replace(/'/g,"\\'")}')">✕</button>
+            </div>`;
+        });
+        list.innerHTML=h;
+    }
+    window.addCharIcon = function(){
+            const name=$('charAddName').value.trim();
+            if(!name){ showToast('이름을 입력하세요.','error'); return; }
+            const fileInput=$('charAddFile');
+            function doRegister(imgSrc){
+                const src=imgSrc||$('charAddUrl').value.trim()||'';
+                const bg=$('charAddBg').value;
+                const initial=$('charAddInitial').value.trim()||name.charAt(0);
+                const crop=$('charAddCrop')?$('charAddCrop').value:'center';
+                charIcons[name]={src,bg,initial,crop};
+                renderCharIconList();
+                refreshAllAvatars();
+                $('charAddName').value=''; fileInput.value=''; $('charAddUrl').value=''; $('charAddInitial').value='';
+                showToast(`🎭 "${name}" 아이콘 등록!`,'success');
+            }
+            if(fileInput.files[0]){
+                Crop.open(fileInput.files[0]).then(result=>{
+                    if(result) doRegister(result);
+                    fileInput.value='';
+                });
+            } else {
+                doRegister(null);
+            }
+        };
+    window.removeCharIcon = function(name){
+        delete charIcons[name];
+        renderCharIconList();
+        refreshAllAvatars();
+        showToast(`"${name}" 아이콘 삭제`,'info');
+    };
+
+    // 이름으로 캐릭터 아이콘 조회
+    function getCharIconHtml(name){
+        const ci=charIcons[name];
+        if(!ci) return '';
+        const s=$('avatarSize').value;
+        if(ci.src && isValidUrl(ci.src)){
+            const cropPos=ci.crop||'center';
+            return `<div class="msg-avatar" style="width:${s}px;height:${s}px;min-width:${s}px;background:transparent;"><img src="${escapeHtml(ci.src)}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:${cropPos};" onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(ci.initial||name.charAt(0))}'"></div>`;
+        }
+        const ini=ci.initial||name.charAt(0);
+        return `<div class="msg-avatar" style="width:${s}px;height:${s}px;min-width:${s}px;background:${escapeHtml(ci.bg||'#74b9ff')};">${escapeHtml(ini)}</div>`;
+    }
+
     let _applyingSettings = false;
 
     const els = {
@@ -790,7 +1181,7 @@
     };
 
     // ===== 접기/펼치기 =====
-    [['togContainerMode','secContainerMode'],['togBgSettings','secBgSettings'],['togAvatarSettings','secAvatarSettings'],['togBubbleShape','secBubbleShape']].forEach(([t,s])=>{
+    [['togContainerMode','secContainerMode'],['togBgSettings','secBgSettings'],['togAvatarSettings','secAvatarSettings'],['togBubbleShape','secBubbleShape'],['togFontDetail','secFontDetail']].forEach(([t,s])=>{
         $(t).addEventListener('click',()=>{ $(t).classList.toggle('open'); $(s).classList.toggle('open'); });
     });
 
@@ -835,7 +1226,12 @@
     function updateBgEffects() {
         const op=$('bgOpacity').value, bl=$('bgBlur').value, oc=$('bgOverlayColor').value, oo=$('bgOverlayOpacity').value;
         $('bgOpacityVal').textContent=op+'%'; $('bgBlurVal').textContent=bl+'px'; $('bgOverlayOpacityVal').textContent=oo+'%';
-        els.chatBgLayer.style.opacity=op/100; els.chatBgLayer.style.filter=bl>0?`blur(${bl}px)`:'none'; els.chatBgLayer.style.transform=bl>0?'scale(1.1)':'none';
+        els.chatBgLayer.style.opacity=op/100;
+        els.chatBgLayer.style.filter='none';
+        els.chatBgLayer.style.transform='none';
+        const blurCSS=bl>0?`blur(${bl}px)`:'none';
+        els.chatBgOverlay.style.backdropFilter=blurCSS;
+        els.chatBgOverlay.style.webkitBackdropFilter=blurCSS;
         els.chatBgOverlay.style.background=oo>0?oc+Math.round(oo*2.55).toString(16).padStart(2,'0'):'transparent';
     }
 
@@ -854,12 +1250,12 @@
         let bg,ini,src;
         if(type==='my'){bg=$('myAvatarBg').value;ini=$('myAvatarInitial').value||'나';src=myAvatarData;}
         else{bg=$('otherAvatarBg').value;ini=$('otherAvatarInitial').value||(name?name.charAt(0):'?');src=otherAvatarData;}
-        const inner=src&&isValidUrl(src)?`<img src="${escapeHtml(src)}" alt="" onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(ini)}'">`:escapeHtml(ini);
+        const inner=src&&isValidUrl(src)?`<img src="${escapeHtml(src)}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(ini)}'">`:escapeHtml(ini);
         return `<div class="msg-avatar" style="width:${s}px;height:${s}px;min-width:${s}px;background:${src?'transparent':escapeHtml(bg)};">${inner}</div>`;
     }
     function buildPerAvatarHtml(src,name) {
         const s=$('avatarSize').value, ini=name?name.charAt(0):'?';
-        if(src&&isValidUrl(src))return `<div class="msg-avatar" style="width:${s}px;height:${s}px;min-width:${s}px;background:transparent;"><img src="${escapeHtml(src)}" alt="" onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(ini)}'"></div>`;
+        if(src&&isValidUrl(src))return `<div class="msg-avatar" style="width:${s}px;height:${s}px;min-width:${s}px;background:transparent;"><img src="${escapeHtml(src)}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='${escapeHtml(ini)}'"></div>`;
         return '';
     }
     function refreshAllAvatars() {
@@ -877,7 +1273,14 @@
             if(isOther&&prev&&prev.classList.contains('other-msg-wrapper')&&prev.dataset.name===w.dataset.name)same=true;
             let avHtml;
             if(same){ avHtml=`<div class="msg-avatar-spacer" style="width:${s}px;min-width:${s}px;"></div>`; }
-            else { const pav=w.dataset.avatarSrc; avHtml=pav?buildPerAvatarHtml(pav,w.dataset.name||''):buildAvatarHtml(isMy?'my':'other',w.dataset.name||''); }
+            else {
+                const pav=w.dataset.avatarSrc;
+                const wName=w.dataset.name||'';
+                if(isMy) avHtml=buildAvatarHtml('my','');
+                else if(pav) avHtml=buildPerAvatarHtml(pav,wName);
+                else if(getCharIconHtml(wName)) avHtml=getCharIconHtml(wName);
+                else avHtml=buildAvatarHtml('other',wName);
+            }
             if(avHtml){ if(isOther)w.insertAdjacentHTML('afterbegin',avHtml); else w.insertAdjacentHTML('beforeend',avHtml); }
         });
     }
@@ -926,9 +1329,7 @@
     }
 
     // ===== 테마 =====
-    const CCI={'--header-bg':'customHeaderBg','--header-txt':'customHeaderTxt','--chat-bg':'customChatBg','--phone-border':'customBorderCol','--my-bg':'customMyBg','--my-txt':'customMyTxt','--other-bg':'customOtherBg','--other-txt':'customOtherTxt','--name-txt':'customNameTxt','--system-txt':'customSystemTxt','--date-bg':'customDateBg','--date-txt':'customDateTxt'};
-    const TCM={hBg:'customHeaderBg',hTxt:'customHeaderTxt',cBg:'customChatBg',bCol:'customBorderCol',mBg:'customMyBg',mTxt:'customMyTxt',oBg:'customOtherBg',oTxt:'customOtherTxt',nTxt:'customNameTxt',sTxt:'customSystemTxt',dBg:'customDateBg',dTxt:'customDateTxt'};
-    const FONT_MAP={
+    const CCI={'--header-bg':'customHeaderBg','--header-txt':'customHeaderTxt','--chat-bg':'customChatBg','--phone-border':'customBorderCol','--my-bg':'customMyBg','--my-txt':'customMyTxt','--other-bg':'customOtherBg','--other-txt':'customOtherTxt','--name-txt':'customNameTxt','--system-txt':'customSystemTxt','--date-bg':'customDateBg','--date-txt':'customDateTxt','--en-txt':'customEnTxt','--nar-bg':'customNarBg','--nar-border':'customNarBorder','--nar-txt':'customNarTxt'};    const TCM={hBg:'customHeaderBg',hTxt:'customHeaderTxt',cBg:'customChatBg',bCol:'customBorderCol',mBg:'customMyBg',mTxt:'customMyTxt',oBg:'customOtherBg',oTxt:'customOtherTxt',nTxt:'customNameTxt',sTxt:'customSystemTxt',dBg:'customDateBg',dTxt:'customDateTxt',eTxt:'customEnTxt',nrBg:'customNarBg',nrBd:'customNarBorder',nrTxt:'customNarTxt'};    const FONT_MAP={
         '':["'Noto Sans KR', sans-serif","@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');"],
         'malgun':["'Malgun Gothic','맑은 고딕', sans-serif",""],
         'nanum-gothic':["'Nanum Gothic', sans-serif","@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');"],
@@ -952,11 +1353,51 @@
     }
     function applyFontSize(){
         const s=parseInt($('fontSize').value)||15;
+        const es=parseInt($('enFontSize').value)||13;
+        const ns=parseInt($('narFontSize').value)||14;
+        // 기본 대사 (한국어)
         $qa('#chatArea .message').forEach(el=>{el.style.fontSize=s+'px';});
         $qa('#chatArea .system-msg').forEach(el=>{el.style.fontSize=Math.max(s-2,10)+'px';});
+        // 영어 병기
+        $qa('#chatArea .msg-en').forEach(el=>{el.style.fontSize=es+'px';});
+        $qa('#chatArea .narration-msg .narration-en').forEach(el=>{el.style.fontSize=es+'px';});
+        // 지문
+        $qa('#chatArea .narration-msg .narration-ko').forEach(el=>{el.style.fontSize=ns+'px';});
         els.phone.dataset.fontSize=s;
     }
+    function applySubFonts(){
+        const enF=getEnFontFamily(), narF=getNarFontFamily();
+        $qa('#chatArea .msg-en').forEach(el=>{el.style.fontFamily=enF;});
+        $qa('#chatArea .narration-msg .narration-en').forEach(el=>{el.style.fontFamily=enF;});
+        $qa('#chatArea .narration-msg .narration-ko').forEach(el=>{el.style.fontFamily=narF;});
+    }
     function getCurrentFontSize(){ return $('fontSize').value||'15'; }
+    function getEnFontSize(){ return $('enFontSize').value||'13'; }
+    function getNarFontSize(){ return $('narFontSize').value||'14'; }
+    function getEnFontFamily(){
+        const v=$('enFontSelector').value;
+        if(!v) return getCurrentFontFamily(); // 빈 값이면 기본 따라감
+        const f=FONT_MAP[v];
+        return f?f[0]:getCurrentFontFamily();
+    }
+    function getEnFontImport(){
+        const v=$('enFontSelector').value;
+        if(!v) return '';
+        const f=FONT_MAP[v];
+        return f?f[1]:'';
+    }
+    function getNarFontFamily(){
+        const v=$('narFontSelector').value;
+        if(!v) return getCurrentFontFamily();
+        const f=FONT_MAP[v];
+        return f?f[0]:getCurrentFontFamily();
+    }
+    function getNarFontImport(){
+        const v=$('narFontSelector').value;
+        if(!v) return '';
+        const f=FONT_MAP[v];
+        return f?f[1]:'';
+    }
     function getCurrentFontFamily(){
         const v=$('fontSelector').value;
         const f=FONT_MAP[v];
@@ -997,6 +1438,10 @@
 
     window.createMsg = createMsg;
     function createMsg(type,name,content,imgSrc,hContent,hImgSrc,opt={}){
+        const timestamp=opt.timestamp||'';
+        const readSt=opt.readStatus||'none';
+        const unreadN=opt.unreadCount||1;
+
         const ca=els.chatArea;
         const sc=opt.skipEscape?content:escapeHtml(content).replace(/\n/g,'<br>');
         const sh=opt.skipEscape?hContent:escapeHtml(hContent||'').replace(/\n/g,'<br>');
@@ -1007,27 +1452,40 @@
         const pav=opt.perAvatarSrc||'';
         const showAvatar=$('chkShowAvatar').checked;
         const avSize=$('avatarSize').value;
+        let metaParts='';
+        if(readSt==='read') metaParts+=`<span class="msg-read">읽음</span>`;
+        else if(readSt==='unread') metaParts+=`<span class="msg-unread">${parseInt(unreadN)||1}</span>`;
+        if(timestamp) metaParts+=`<span class="msg-time">${escapeHtml(timestamp)}</span>`;
+        const metaHtml=metaParts?`<div class="msg-meta">${metaParts}</div>`:'';
         if(type==='my'){
             d.className='msg-wrapper my-msg-wrapper'+hc;
             const last=ca.lastElementChild;
             const same=last&&last.classList.contains('my-msg-wrapper');
-            // 연속 같은 화자면 아바타 대신 투명 스페이서
             let avHtml='';
             if(showAvatar){ avHtml=same?`<div class="msg-avatar-spacer" style="width:${avSize}px;min-width:${avSize}px;"></div>`:buildAvatarHtml('my',''); }
-            d.innerHTML=`<div class="msg-content-col"><div class="message">${mh}</div></div>${avHtml}`;
+            d.innerHTML=`<div class="msg-content-col"><div class="message">${mh}</div></div>${metaHtml}${avHtml}`;
+            if(timestamp)d.dataset.timestamp=timestamp;
+            if(readSt!=='none'){d.dataset.readStatus=readSt; if(readSt==='unread')d.dataset.unreadCount=unreadN;}
             d.appendChild(mkDel());
+
         } else if(type==='other'){
             d.className='msg-wrapper other-msg-wrapper'+hc;
-            const rn=name.trim()||'알 수 없음'; d.dataset.name=rn; if(pav)d.dataset.avatarSrc=pav;
+            const rn=name.trim()||'알 수 없음'; d.dataset.name=rn; if(pav)d.dataset.avatarSrc=pav; if(timestamp)d.dataset.timestamp=timestamp; if(readSt!=='none'){d.dataset.readStatus=readSt; if(readSt==='unread')d.dataset.unreadCount=unreadN;}
             const last=ca.lastElementChild;
             const same=last&&last.classList.contains('other-msg-wrapper')&&last.dataset.name===rn;
             const nh=same?'':`<div class="name-tag">${escapeHtml(rn)}</div>`;
             let avHtml='';
             if(showAvatar){
                 if(same){ avHtml=`<div class="msg-avatar-spacer" style="width:${avSize}px;min-width:${avSize}px;"></div>`; }
-                else { avHtml=pav?buildPerAvatarHtml(pav,rn):buildAvatarHtml('other',rn); }
+                else {
+                    // 우선순위: 메시지 전용 > 캐릭터별 등록 > 상대 기본
+                    if(pav) avHtml=buildPerAvatarHtml(pav,rn);
+                    else if(getCharIconHtml(rn)) avHtml=getCharIconHtml(rn);
+                    else avHtml=buildAvatarHtml('other',rn);
+                }
+
             }
-            d.innerHTML=`${avHtml}<div class="msg-content-col">${nh}<div class="message">${mh}</div></div>`;
+            d.innerHTML=`${avHtml}<div class="msg-content-col">${nh}<div class="message">${mh}</div></div>${metaHtml}`;
             d.appendChild(mkDel());
         } else if(type==='narration'){
             d.className='narration-msg';
@@ -1039,7 +1497,9 @@
         d.addEventListener('click',function(e){if(e.target.closest('.btn-msg-delete'))return;startEdit(this);});
         ca.appendChild(d); setTimeout(()=>{ca.scrollTop=ca.scrollHeight;},10);
         applyFontSize();
+        applySubFonts();
         updateMsgCount();
+
         resetInputsKeepType();
     }
     function updateBilingualPlaceholder(){
@@ -1062,7 +1522,10 @@
         Promise.all([readFile(els.imgUpload.files[0]),readFile(els.hiddenImgUpload.files[0]),readFile($('perMsgAvatarUpload').files[0])]).then(([mi,hi,pa])=>{
             const fm=mi||els.imgUrl.value.trim(), fh=hi||els.hiddenImgUrl.value.trim(), fp=pa||$('perMsgAvatarUrl').value.trim();
             if(!ko&&!hc&&!fm&&!fh&&!enTxt){showToast('내용을 입력하세요!','error');return;}
-            createMsg(t,n,ko,fm,hc,fh,{perAvatarSrc:fp,enText:enTxt});
+            const ts=$('chkTimestamp').checked?$('msgTimestamp').value.trim():'';
+            const rs=$q('input[name="readStatus"]:checked').value;
+            const uc=$('unreadCount').value;
+            createMsg(t,n,ko,fm,hc,fh,{perAvatarSrc:fp,enText:enTxt,timestamp:ts,readStatus:rs,unreadCount:uc});
         }).catch(e=>{showToast('파일 오류','error');console.error(e);});
     }
     function delMsg(e,btn){ e.stopPropagation(); if(!confirm('삭제?'))return; const w=btn.parentElement;
@@ -1091,6 +1554,14 @@
         els.hiddenImgUrl.value=''; els.divDelHiddenImg.style.display=hd.img?'block':'none'; if(hd.img&&!hd.img.startsWith('data:'))els.hiddenImgUrl.value=hd.img;
         els.chkDelMainImg.checked=false; els.chkDelHiddenImg.checked=false;
         }
+        // 타임스탬프 복원
+        const savedTs=el.dataset.timestamp||'';
+        if(savedTs){ $('chkTimestamp').checked=true; $('msgTimestamp').style.display=''; $('msgTimestamp').value=savedTs; }
+        else { $('chkTimestamp').checked=false; $('msgTimestamp').style.display='none'; $('msgTimestamp').value=''; }
+        const savedRs=el.dataset.readStatus||'none';
+        $q(`input[name="readStatus"][value="${savedRs}"]`).checked=true;
+        $('unreadCount').style.display=savedRs==='unread'?'':'none';
+        if(savedRs==='unread') $('unreadCount').value=el.dataset.unreadCount||1;
         els.inputTitle.innerText='🔄 수정 중...'; els.btnAdd.style.display='none'; $('btnSend').style.display='none'; els.editBtnGroup.style.display='flex';
         syncQuickBar();
         $q('.input-panel').scrollIntoView({behavior:'smooth'});
@@ -1108,21 +1579,33 @@
             const sc=escapeHtml(ko).replace(/\n/g,'<br>'),sh=escapeHtml(hc).replace(/\n/g,'<br>');
             const enTxt=rawEn?escapeHtml(rawEn).replace(/\n/g,'<br>'):'';
             const{html:mh,hid}=buildMsg(sc,fm,sh,fh,enTxt);const hcl=hid?' has-hidden-content':'';
+            // 타임스탬프 + 읽음 상태 복원
+            const updTs=$('chkTimestamp').checked?$('msgTimestamp').value.trim():'';
+            const updRs=$q('input[name="readStatus"]:checked').value;
+            const updUc=$('unreadCount').value;
+            let updMetaParts='';
+            if(updRs==='read') updMetaParts+='<span class="msg-read">읽음</span>';
+            else if(updRs==='unread') updMetaParts+='<span class="msg-unread">'+(parseInt(updUc)||1)+'</span>';
+            if(updTs) updMetaParts+='<span class="msg-time">'+escapeHtml(updTs)+'</span>';
+            const updMetaHtml=updMetaParts?'<div class="msg-meta">'+updMetaParts+'</div>':'';
             const pav=editingElement.dataset.avatarSrc||'';
             // bubble 클래스 제거 전에 저장
             editingElement.className='';
             if(t==='my'){editingElement.className='msg-wrapper my-msg-wrapper editing'+hcl;editingElement.innerHTML=`<div class="msg-content-col"><div class="message">${mh}</div></div>${buildAvatarHtml('my','')}`;}
-            else if(t==='other'){editingElement.className='msg-wrapper other-msg-wrapper editing'+hcl;const fn=n.trim()||'알 수 없음';editingElement.dataset.name=fn;const pr=editingElement.previousElementSibling;const sm=pr&&pr.classList.contains('other-msg-wrapper')&&pr.dataset.name===fn;const nh2=sm?'':`<div class="name-tag">${escapeHtml(fn)}</div>`;const av=pav?buildPerAvatarHtml(pav,fn):buildAvatarHtml('other',fn);editingElement.innerHTML=`${av}<div class="msg-content-col">${nh2}<div class="message">${mh}</div></div>`;}
+            else if(t==='other'){editingElement.className='msg-wrapper other-msg-wrapper editing'+hcl;const fn=n.trim()||'알 수 없음';editingElement.dataset.name=fn;const pr=editingElement.previousElementSibling;const sm=pr&&pr.classList.contains('other-msg-wrapper')&&pr.dataset.name===fn;const nh2=sm?'':`<div class="name-tag">${escapeHtml(fn)}</div>`;const av=pav?buildPerAvatarHtml(pav,fn):buildAvatarHtml('other',fn);editingElement.innerHTML=`${av}<div class="msg-content-col">${nh2}<div class="message">${mh}</div></div>${updMetaHtml}`;}
             else if(t==='narration'){editingElement.className='narration-msg editing';let nH=`<div class="narration-ko">${sc}</div>`;if(enTxt)nH+=`<div class="narration-en">${enTxt}</div>`;editingElement.innerHTML=nH;}
             else if(t==='system'){editingElement.className='system-msg editing';editingElement.innerHTML=sc;}
             else if(t==='part'){editingElement.className='date-divider editing';editingElement.innerHTML=`<span>${sc}</span>`;}
             editingElement.appendChild(mkDel());
             editingElement.onclick=null; editingElement.addEventListener('click',function(e){if(e.target.closest('.btn-msg-delete'))return;startEdit(this);});
+            if(updTs){editingElement.dataset.timestamp=updTs;}else{delete editingElement.dataset.timestamp;}
+            if(updRs!=='none'){editingElement.dataset.readStatus=updRs;if(updRs==='unread')editingElement.dataset.unreadCount=updUc;}else{delete editingElement.dataset.readStatus;delete editingElement.dataset.unreadCount;}
             cancelEdit();
+
         }).catch(e=>{showToast('수정 오류','error');console.error(e);});
     }
     function cancelEdit(){ editingElement=null; $qa('.editing').forEach(e=>e.classList.remove('editing')); els.inputTitle.innerText='✍️ 내용 작성'; els.btnAdd.style.display='none'; els.editBtnGroup.style.display='none'; $('btnSend').style.display=''; resetInputs(); }
-    function resetInputs(){ els.msgContent.value='';els.hiddenContent.value='';els.imgUrl.value='';els.imgUpload.value='';els.hiddenImgUrl.value='';els.hiddenImgUpload.value='';els.chkDelMainImg.checked=false;els.divDelMainImg.style.display='none';els.chkDelHiddenImg.checked=false;els.divDelHiddenImg.style.display='none';$('perMsgAvatarUpload').value='';$('perMsgAvatarUrl').value=''; autoResizeTextarea(); }
+    function resetInputs(){ $('msgTimestamp').value='';$q('input[name="readStatus"][value="none"]').checked=true;$('unreadCount').style.display='none';els.msgContent.value='';els.hiddenContent.value='';els.imgUrl.value='';els.imgUpload.value='';els.hiddenImgUrl.value='';els.hiddenImgUpload.value='';els.chkDelMainImg.checked=false;els.divDelMainImg.style.display='none';els.chkDelHiddenImg.checked=false;els.divDelHiddenImg.style.display='none';$('perMsgAvatarUpload').value='';$('perMsgAvatarUrl').value=''; autoResizeTextarea(); }
     /** 전송 후 화자+이름 유지, 텍스트만 클리어 */
     function resetInputsKeepType(){ els.msgContent.value='';els.hiddenContent.value='';els.imgUrl.value='';els.imgUpload.value='';els.hiddenImgUrl.value='';els.hiddenImgUpload.value='';els.chkDelMainImg.checked=false;els.divDelMainImg.style.display='none';els.chkDelHiddenImg.checked=false;els.divDelHiddenImg.style.display='none';$('perMsgAvatarUpload').value='';$('perMsgAvatarUrl').value=''; els.msgContent.focus(); autoResizeTextarea(); }
     function resetChat(){ if(confirm('초기화?')){els.chatArea.innerHTML='';cancelEdit();updateMsgCount();showToast('초기화 완료','info');} }
@@ -1156,11 +1639,13 @@
         if(mE){mc=mE.innerText;const i=mE.querySelector('img.msg-image');if(i)ms=i.src;const enEl=mE.querySelector('.msg-en');if(enEl){mc=mc.replace(enEl.innerText,'').trim();}}else{const c=el.cloneNode(true);const i=c.querySelector('img');if(i){ms=i.src;i.remove();}c.querySelectorAll('.btn-msg-delete,.name-tag,.msg-avatar,.msg-en').forEach(k=>k.remove());mc=c.innerText;}
         const enEl2=el.querySelector('.main-text .msg-en');let es='';if(enEl2)es=` [en:${enEl2.innerText.trim()}]`;
         let hs='';if(hE){let hc=hE.innerText,hi='';const i=hE.querySelector('img.msg-image');if(i)hi=i.src;const hEn=hE.querySelector('.msg-en');if(hEn)hc=hc.replace(hEn.innerText,'').trim();hs=` [hidden:${hc}${hi?` [img:${hi}]`:''}]`;}const mt=ms?` [img:${ms}]`:'';
+        const tss=el.dataset.timestamp?` [time:${el.dataset.timestamp}]`:'';
+        let rss=''; if(el.dataset.readStatus==='read')rss=' [read]'; else if(el.dataset.readStatus==='unread')rss=` [unread:${el.dataset.unreadCount||1}]`;
         if(el.classList.contains('narration-msg')){
             const koEl=el.querySelector('.narration-ko'),enEl=el.querySelector('.narration-en');
             const koTxt=koEl?koEl.innerText.trim():'',enTxt=enEl?` [en:${enEl.innerText.trim()}]`:'';
             line=`지문 : ${koTxt}${enTxt};`;
-        } else if(el.classList.contains('my-msg-wrapper'))line=`나 : ${mc}${mt}${es}${hs};`;else if(el.classList.contains('other-msg-wrapper'))line=`${el.dataset.name||'?'} : ${mc}${mt}${es}${hs};`;else if(el.classList.contains('system-msg'))line=`시스템 : ${mc};`;else if(el.classList.contains('date-divider'))line=`날짜 : ${mc};`;if(line)text+=line+'\n';}
+        } else if(el.classList.contains('my-msg-wrapper'))line=`나 : ${mc}${mt}${es}${tss}${rss}${hs};`;else if(el.classList.contains('other-msg-wrapper'))line=`${el.dataset.name||'?'} : ${mc}${mt}${es}${tss}${rss}${hs};`;else if(el.classList.contains('system-msg'))line=`시스템 : ${mc};`;else if(el.classList.contains('date-divider'))line=`날짜 : ${mc};`;if(line)text+=line+'\n';}
         const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));a.download='chat_history.txt';a.click();URL.revokeObjectURL(a.href);showToast('💾 저장 완료','success');
     }
     function handleTxtUpload(){const f=els.txtUpload.files[0];if(!f)return;const r=new FileReader();r.onload=e=>processTxt(e.target.result);r.onerror=()=>showToast('읽기 실패','error');r.readAsText(f);}
@@ -1170,7 +1655,11 @@
         while((m=rx.exec(text))!==null){const rn=m[1].trim();let rc=m[2].trim();let t='other',n=rn;if(rn==='나')t='my';else if(rn==='지문')t='narration';else if(rn==='시스템')t='system';else if(rn==='날짜')t='part';
         let hc='',hi='',mi='';const hs=rc.indexOf('[hidden:');if(hs!==-1){let dp=0,he=-1;for(let i=hs;i<rc.length;i++){if(rc[i]==='[')dp++;else if(rc[i]===']'){dp--;if(dp===0){he=i;break;}}}if(he>hs){const tg=rc.substring(hs,he+1);rc=rc.replace(tg,'').trim();let inn=tg.substring(8,tg.length-1).trim();const him=inn.match(/\[img\s*:\s*(.*?)\]/);if(him){hi=him[1];inn=inn.replace(him[0],'').trim();}hc=inn;}}
         const enm=rc.match(/\[en\s*:\s*(.*?)\]/);let enTxt='';if(enm){enTxt=enm[1];rc=rc.replace(enm[0],'').trim();}
-        const mim=rc.match(/\[img\s*:\s*(.*?)\]/);if(mim){mi=mim[1];rc=rc.replace(mim[0],'').trim();}createMsg(t,n,rc,mi,hc,hi,{enText:enTxt});cnt++;}
+        const tsm=rc.match(/\[time\s*:\s*(.*?)\]/);let tsVal='';if(tsm){tsVal=tsm[1];rc=rc.replace(tsm[0],'').trim();}
+        let rsVal='none',ucVal=1;
+        const rsRead=rc.match(/\[read\]/);if(rsRead){rsVal='read';rc=rc.replace(rsRead[0],'').trim();}
+        const rsUnread=rc.match(/\[unread\s*:\s*(\d+)\]/);if(rsUnread){rsVal='unread';ucVal=parseInt(rsUnread[1])||1;rc=rc.replace(rsUnread[0],'').trim();}
+        const mim=rc.match(/\[img\s*:\s*(.*?)\]/);if(mim){mi=mim[1];rc=rc.replace(mim[0],'').trim();}createMsg(t,n,rc,mi,hc,hi,{enText:enTxt,timestamp:tsVal,readStatus:rsVal,unreadCount:ucVal});cnt++;}
         els.txtUpload.value='';showToast(cnt>0?`📂 ${cnt}개 로드`:'파싱 실패',cnt>0?'success':'error');
     }
     function downloadPng(mode){
@@ -1341,6 +1830,10 @@
         // 선택한 글꼴의 추가 font import/declaration
         const fontImport = getCurrentFontImport();
         if(fontImport) css += fontImport + '\n';
+        const enFontImport = getEnFontImport();
+        if(enFontImport && enFontImport !== fontImport) css += enFontImport + '\n';
+        const narFontImport = getNarFontImport();
+        if(narFontImport && narFontImport !== fontImport && narFontImport !== enFontImport) css += narFontImport + '\n';
 
         css += `
 /* ===== 폰 컨테이너 ===== */
@@ -1384,6 +1877,8 @@
   z-index: 1;
   border-bottom-left-radius: ${cornerRadius};
   border-bottom-right-radius: ${cornerRadius};
+  -webkit-backdrop-filter: inherit;
+  backdrop-filter: inherit;
 }
 .chat-area {
   position: relative;
@@ -1462,7 +1957,7 @@
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
-.msg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.msg-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 1/1; }
 
 .message {
   padding: 10px 14px;
@@ -1488,9 +1983,40 @@
 
 .name-tag { font-size: .75rem; margin-bottom: 4px; margin-left: 2px; opacity: .8; }
 
+/* 메타 정보 */
+.msg-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.other-msg-wrapper .msg-meta { align-items: flex-start; }
+.msg-time {
+  font-size: 0.65rem;
+  color: #999;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.msg-read {
+  font-size: 0.62rem;
+  color: #999;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.msg-unread {
+  font-size: 0.62rem;
+  color: #f0b800;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
 /* ===== 영어 병기 ===== */
 .msg-en {
-  font-size: 0.85em;
+  font-size: ${getEnFontSize()}px;
+  font-family: ${getEnFontFamily()};
   color: #64748b;
   border-top: 1px dashed #e2e8f0;
   padding-top: 6px;
@@ -1528,14 +2054,16 @@
   white-space: pre-wrap;
 }
 .narration-msg .narration-ko {
-  font-size: 0.9rem;
+  font-size: ${getNarFontSize()}px;
+  font-family: ${getNarFontFamily()};
   color: #475569;
   font-weight: 500;
   line-height: 1.6;
   word-break: keep-all;
 }
 .narration-msg .narration-en {
-  font-size: 0.8rem;
+  font-size: ${getEnFontSize()}px;
+  font-family: ${getEnFontFamily()};
   color: #94a3b8;
   font-style: italic;
   margin-top: 6px;
@@ -1576,6 +2104,34 @@
 `;
         }
 
+
+// ===== 이미지 순서 번호 숨기기 =====
+        if($('chkHideImgNum').checked){
+            css += `
+/* ===== 이미지 순서 번호 숨기기 ===== */
+.image-number-badge { display: none !important; }
+`;
+        }
+        // ===== 프로필 이미지 원형 보정 (외부 플랫폼 호환) =====
+        if($('chkShowAvatar').checked){
+            css += `
+/* ===== 프로필 이미지 원형 보정 ===== */
+.image-number-wrapper {
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  display: block !important;
+}
+.image-number-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+`;
+        }
         // ===== 말풍선 모양 (사용 중인 것만) =====
         if(bubbleClass==='bubble-round'){
             css += `
@@ -1663,13 +2219,16 @@
 }
 .phone-container.theme-custom .other-msg-wrapper .message::after { border-right-color: ${oBg} !important; }
 .phone-container.theme-custom .my-msg-wrapper .msg-en { color: rgba(255,255,255,0.7); border-top-color: rgba(255,255,255,0.25); }
+.phone-container.theme-custom .other-msg-wrapper .msg-en { color: ${$('customEnTxt').value} !important; }
+.phone-container.theme-custom .narration-msg .narration-en { color: ${$('customEnTxt').value} !important; }
 .phone-container.theme-custom .name-tag { color: ${nTxt} !important; }
 .phone-container.theme-custom .system-msg { color: ${sTxt} !important; }
 .phone-container.theme-custom .date-divider span {
   color: ${dTxt} !important;
   background: ${dBg} !important;
 }
-.phone-container.theme-custom .narration-msg { background: rgba(255,255,255,0.45); border-color: rgba(0,0,0,0.15); }
+.phone-container.theme-custom .narration-msg { background: ${$('customNarBg').value} !important; border-color: ${$('customNarBorder').value} !important; }
+.phone-container.theme-custom .narration-msg .narration-ko { color: ${$('customNarTxt').value} !important; }
 `;
         } else if(themeName==='theme-default'){
             css += `
@@ -1774,6 +2333,10 @@ ${bodyIndented}
             theme: themeVal,
             font: $('fontSelector').value,
             fontSize: $('fontSize').value,
+            enFont: $('enFontSelector').value,
+            enFontSize: $('enFontSize').value,
+            narFont: $('narFontSelector').value,
+            narFontSize: $('narFontSize').value,
             roomName: els.roomName.value,
             border: els.chkBorder.checked,
             phoneWidth: $('phoneWidth').value,
@@ -1800,6 +2363,8 @@ ${bodyIndented}
             bgBlur: $('bgBlur').value,
             bgOverlayColor: $('bgOverlayColor').value,
             bgOverlayOpacity: $('bgOverlayOpacity').value,
+            hideImgNum: $('chkHideImgNum').checked,
+            charIcons: JSON.parse(JSON.stringify(charIcons)),
         };
         for(const[k,id]of Object.entries(TCM)) data.customColors[k]=$(id).value;
         return data;
@@ -1809,6 +2374,10 @@ ${bodyIndented}
         if(d.roomName!=null) els.roomName.value=d.roomName;
         if(d.font!=null) $('fontSelector').value=d.font;
         if(d.fontSize!=null) $('fontSize').value=d.fontSize;
+        if(d.enFont!=null) $('enFontSelector').value=d.enFont;
+        if(d.enFontSize!=null) $('enFontSize').value=d.enFontSize;
+        if(d.narFont!=null) $('narFontSelector').value=d.narFont;
+        if(d.narFontSize!=null) $('narFontSize').value=d.narFontSize;
         if(d.border!=null) els.chkBorder.checked=d.border;
         if(d.phoneWidth!=null) $('phoneWidth').value=d.phoneWidth;
         if(d.containerMode!=null){ const r=$q(`input[name="containerMode"][value="${d.containerMode}"]`); if(r)r.checked=true; }
@@ -1833,6 +2402,9 @@ ${bodyIndented}
         if(d.bgBlur!=null) $('bgBlur').value=d.bgBlur;
         if(d.bgOverlayColor!=null) $('bgOverlayColor').value=d.bgOverlayColor;
         if(d.bgOverlayOpacity!=null) $('bgOverlayOpacity').value=d.bgOverlayOpacity;
+        if(d.hideImgNum!=null){ $('chkHideImgNum').checked=d.hideImgNum; els.phone.classList.toggle('hide-img-num', d.hideImgNum); }
+        if(d.charIcons!=null){ charIcons=d.charIcons; renderCharIconList(); }
+
         if(d.customColors){ for(const[k,id]of Object.entries(TCM)){ if(d.customColors[k])$(id).value=d.customColors[k]; } }
         // 테마를 기본 테마로 설정 후 적용 (preset: 값이 아닌 실제 테마)
         if(d.theme!=null) els.theme.value=d.theme;
@@ -1911,9 +2483,17 @@ ${bodyIndented}
         els.theme.addEventListener('change',changeTheme);
         $('fontSelector').addEventListener('change',applyFont);
         $('fontSize').addEventListener('input',applyFontSize);
+        $('enFontSize').addEventListener('input',applyFontSize);
+        $('narFontSize').addEventListener('input',applyFontSize);
+        $('enFontSelector').addEventListener('change',function(){applySubFonts();});
+        $('narFontSelector').addEventListener('change',function(){applySubFonts();});
         els.chkBorder.addEventListener('change',toggleBorder);
         $qa('input[name="msgType"]').forEach(r=>r.addEventListener('change',()=>{toggleInputs();syncQuickBar();}));
         els.chkBilingual.addEventListener('change',updateBilingualPlaceholder);
+        $('chkTimestamp').addEventListener('change',function(){ $('msgTimestamp').style.display=this.checked?'':'none'; });
+        $qa('input[name="readStatus"]').forEach(r=>r.addEventListener('change',function(){ $('unreadCount').style.display=this.value==='unread'?'':'none'; }));
+
+
         for(const id of Object.values(CCI))$(id).addEventListener('input',updateCustomTheme);
         $('btnAdd').addEventListener('click',addMsg);
         $('btnUpdate').addEventListener('click',updateMsg);
@@ -1945,13 +2525,24 @@ ${bodyIndented}
         // 아이콘
         $('chkShowAvatar').addEventListener('change',()=>{toggleAvatarSettings();toggleInputs();});
         $('avatarSize').addEventListener('input',applyAvatarSize);
-        ['myAvatarUpload','myAvatarUrl','otherAvatarUpload','otherAvatarUrl','myAvatarBg','otherAvatarBg','myAvatarInitial','otherAvatarInitial'].forEach(id=>{
+        // 나의 아이콘 파일 선택 → 크롭
+        $('myAvatarUpload').addEventListener('change',function(){
+            if(this.files[0]){
+                Crop.open(this.files[0]).then(result=>{
+                    if(result){ myAvatarData=result; refreshAllAvatars(); }
+                    this.value='';
+                });
+            }
+        });
+        // 나머지 아이콘 관련 이벤트
+        ['myAvatarUrl','otherAvatarBg','otherAvatarInitial','myAvatarBg','myAvatarInitial'].forEach(id=>{
             $(id).addEventListener('change',()=>loadAvatarData().then(refreshAllAvatars));
             if($(id).type==='text'||$(id).type==='color')$(id).addEventListener('input',()=>loadAvatarData().then(refreshAllAvatars));
         });
         // 말풍선
         $qa('input[name="bubbleShape"]').forEach(r=>r.addEventListener('change',applyBubbleShape));
         $('chkNoTail').addEventListener('change',applyBubbleShape);
+        $('chkHideImgNum').addEventListener('change',function(){ els.phone.classList.toggle('hide-img-num', this.checked); });
         // 커스텀 말풍선 슬라이더
         ['cbRadius','cbMyCorner','cbOtherCorner','cbPadV','cbPadH','cbShadow','cbBorderW'].forEach(id=>$(id).addEventListener('input',applyCustomBubble));
         $('cbBorderColor').addEventListener('input',applyCustomBubble);
@@ -1972,7 +2563,7 @@ ${bodyIndented}
         setupQuickBar();
     }
 
-    function init(){ bind(); toggleInputs(); changeTheme(); toggleBorder(); applyPhoneWidth(); applyContainerMode(); applyBubbleShape(); applyFont(); applyFontSize(); updateMsgCount(); refreshPresetOptions(); }
+    function init(){ bind(); toggleInputs(); changeTheme(); toggleBorder(); applyPhoneWidth(); applyContainerMode(); applyBubbleShape(); applyFont(); applyFontSize(); applySubFonts(); updateMsgCount(); refreshPresetOptions(); }
     init();
 })();
 </script>
@@ -2105,11 +2696,15 @@ const SE = (function(){
                 const label=(l.type==='other')?((chars.find(c=>c.name===l.name)?.emoji||'👤')+' '+(l.name||'?')):(TS[l.type].e+' '+TS[l.type].l);
                 const disp=l.en?(l.text+'\n-\n'+l.en):l.text;
                 const hidBadge=l.hidden?'<span class="fl-hid" title="숨김: '+esc(l.hidden)+'">👆</span>':'';
+                const timeVal=l.time||'';
+                const timeCls=timeVal?'fl-timebtn has-time':'fl-timebtn';
+                const timeDisp=timeVal||'🕐';
                 h+='<div class="fl-row" draggable="true" data-i="'+i+'" ondragstart="SE.fds(event,'+i+')" ondragover="event.preventDefault()" ondragenter="SE.fde(event,'+i+')" ondragleave="event.currentTarget.classList.remove(\'drag-over\')" ondrop="SE.fdd(event,'+i+')" ondragend="SE.fdx()">'
                   +'<span class="fl-grip">⠿</span>'
                   +'<span class="fl-label" style="background:'+s.bg+';color:'+(s.c||'#1e293b')+'" onclick="SE.flSetType('+i+')" title="현재 선택된 캐릭터로 변경">'+label+'</span>'
                   +'<div class="fl-text" contenteditable="true" data-i="'+i+'" oninput="SE.flEdit('+i+',this)" onkeydown="SE.flKey(event,'+i+')">'+esc(disp).replace(/\n/g,'<br>')+'</div>'
                   +hidBadge
+                  +'<button class="'+timeCls+'" onclick="SE.flTime('+i+')" title="시간 설정">'+timeDisp+'</button>'
                   +'<button class="fl-hidbtn" onclick="SE.flHid('+i+')" title="숨김 내용 편집">🙈</button>'
                   +'<button class="fl-del" onclick="SE.formDel('+i+')" title="삭제">✕</button>'
                   +'</div>';
@@ -2149,7 +2744,7 @@ const SE = (function(){
         if(e.key==='Enter'&&!e.shiftKey){
             e.preventDefault();
             const name=(curType==='other'&&curChar)?curChar.name:'';
-            lines.splice(i+1,0,{type:curType,name,text:'',en:'',hidden:''});
+            lines.splice(i+1,0,{type:curType,name,text:'',en:'',hidden:'',time:''});
             drawFormWs();
             const rows=$('seFormWs').querySelectorAll('.fl-text');
             if(rows[i+1])rows[i+1].focus();
@@ -2158,7 +2753,7 @@ const SE = (function(){
     }
     function flAdd(){
         const name=(curType==='other'&&curChar)?curChar.name:'';
-        lines.push({type:curType,name,text:'',en:'',hidden:''});
+        lines.push({type:curType,name,text:'',en:'',hidden:'',time:''});
         drawFormWs();
         const rows=$('seFormWs').querySelectorAll('.fl-text');
         if(rows.length)rows[rows.length-1].focus();
@@ -2169,6 +2764,11 @@ const SE = (function(){
         lines[i].type=curType;
         lines[i].name=(curType==='other'&&curChar)?curChar.name:'';
         drawFormWs();updatePvOnly();
+    }
+    function flTime(i){
+        const cur=lines[i].time||'';
+        const v=prompt('시간을 입력하세요 (비우면 삭제):\n예: 오후 3:24, 14:30, 아침',cur);
+        if(v!==null){lines[i].time=v.trim();drawFormWs();updatePvOnly();}
     }
     function flHid(i){
         const cur=lines[i].hidden||'';
@@ -2195,7 +2795,7 @@ const SE = (function(){
     function mkTagSpan(type,name,text){
         const s=type==='other'?gcs(name):TS[type];
         const span=document.createElement('span');
-        span.className='se-tagged';span.dataset.type=type;span.dataset.name=name||'';span.dataset.emoji=s.e;
+        span.className='se-tagged';span.dataset.type=type;span.dataset.name=name||'';span.dataset.emoji=s.e;span.dataset.time='';
         span.style.backgroundColor=s.bg;span.style.color=s.c||'#1e293b';
         span.textContent=text;
         // 클릭하면 현재 선택된 캐릭터로 즉시 변경 (드래그 불필요)
@@ -2222,7 +2822,9 @@ const SE = (function(){
         dws.innerHTML='';
         lines.forEach(l=>{
             const full=l.en?(l.text+'\n'+l.en):l.text;
-            dws.appendChild(mkTagSpan(l.type,l.name,full));
+            const sp=mkTagSpan(l.type,l.name,full);
+            if(l.time)sp.dataset.time=l.time;
+            dws.appendChild(sp);
             dws.appendChild(document.createTextNode('\n'));
         });
     }
@@ -2240,7 +2842,7 @@ const SE = (function(){
             for(const ch of node.childNodes){
                 if(ch.nodeType===1&&ch.classList&&ch.classList.contains('se-tagged')){
                     const raw=tagInner(ch).replace(/\u200b/g,'').replace(/\n{2,}/g,'\n').trim();
-                    if(raw){const{ko,en}=splitDrag(raw);r.push({type:ch.dataset.type,name:ch.dataset.name||'',text:ko,en,hidden:''});}
+                    if(raw){const{ko,en}=splitDrag(raw);r.push({type:ch.dataset.type,name:ch.dataset.name||'',text:ko,en,hidden:'',time:ch.dataset.time||''});}
                 } else if(ch.nodeType===1) walk(ch);
             }
         })(dws);
@@ -2365,14 +2967,15 @@ const SE = (function(){
     function syncFromText(){parseTxt($('seTEdit').value);}
 
     function textApply(){parseTxt($('seTEdit').value);setMode('form');}
-    function parseTxt(text){lines=[];const rx=/(.+?)\s*:\s*([\s\S]*?);\s*(?:\n|$)/g;let m;while((m=rx.exec(text))!==null){const rn=m[1].trim();let rc=m[2].trim();let type='other',name=rn;if(rn==='나')type='my';else if(rn==='지문')type='narration';else if(rn==='시스템')type='system';else if(rn==='날짜')type='part';let en='',hid='';const enm=rc.match(/\[en\s*:\s*(.*?)\]/);if(enm){en=enm[1];rc=rc.replace(enm[0],'').trim();}const hm=rc.match(/\[hidden\s*:\s*(.*?)\]/);if(hm){hid=hm[1];rc=rc.replace(hm[0],'').trim();}if(type==='other'&&!chars.find(c=>c.name===name)){chars.push({name,emoji:'👤',color:COLORS[cIdx%COLORS.length]});cIdx++;}lines.push({type,name:type==='other'?name:'',text:rc,en,hidden:hid});}renderChips();renderFormList();updatePv();}
-    function buildTxt(){if(mode==='drag')syncFromDrag();let t='';lines.forEach(l=>{let label='';if(l.type==='my')label='나';else if(l.type==='narration')label='지문';else if(l.type==='system')label='시스템';else if(l.type==='part')label='날짜';else label=l.name||'?';const en=l.en?' [en:'+l.en+']':'';const hid=l.hidden?' [hidden:'+l.hidden+']':'';t+=label+' : '+l.text+hid+en+';\n';});return t;}
+    function parseTxt(text){lines=[];const rx=/(.+?)\s*:\s*([\s\S]*?);\s*(?:\n|$)/g;let m;while((m=rx.exec(text))!==null){const rn=m[1].trim();let rc=m[2].trim();let type='other',name=rn;if(rn==='나')type='my';else if(rn==='지문')type='narration';else if(rn==='시스템')type='system';else if(rn==='날짜')type='part';let en='',hid='',lineTime='';const enm=rc.match(/\[en\s*:\s*(.*?)\]/);if(enm){en=enm[1];rc=rc.replace(enm[0],'').trim();}const hm=rc.match(/\[hidden\s*:\s*(.*?)\]/);if(hm){hid=hm[1];rc=rc.replace(hm[0],'').trim();}const ltm=rc.match(/\[time\s*:\s*(.*?)\]/);if(ltm){lineTime=ltm[1];rc=rc.replace(ltm[0],'').trim();}if(type==='other'&&!chars.find(c=>c.name===name)){chars.push({name,emoji:'👤',color:COLORS[cIdx%COLORS.length]});cIdx++;}lines.push({type,name:type==='other'?name:'',text:rc,en,hidden:hid,time:lineTime});}renderChips();renderFormList();updatePv();}
+    function buildTxt(){if(mode==='drag')syncFromDrag();let t='';lines.forEach(l=>{let label='';if(l.type==='my')label='나';else if(l.type==='narration')label='지문';else if(l.type==='system')label='시스템';else if(l.type==='part')label='날짜';else label=l.name||'?';const en=l.en?' [en:'+l.en+']':'';const hid=l.hidden?' [hidden:'+l.hidden+']':'';const ltm=l.time?' [time:'+l.time+']':'';t+=label+' : '+l.text+hid+en+ltm+';\n';});return t;}
 
     function updatePv(){if(mode==='drag')syncFromDrag();updatePvOnly();}
-    function updatePvOnly(){const pv=$('sePvPhone');$('seCount').textContent=lines.length;if(!lines.length){pv.innerHTML='<div class="se-empty">대사를 추가하면 미리보기가 표시됩니다.</div>';return;}let h='';lines.forEach(l=>{const eB=l.en?'<div class="en">'+esc(l.en)+'</div>':'';if(l.type==='my')h+='<div class="pv-my"><div class="pvb">'+esc(l.text)+eB+'</div></div>';else if(l.type==='other'){const ch=chars.find(c=>c.name===l.name);h+='<div class="pv-o"><div class="pv-av" style="background:'+(ch?ch.color:'#e2e8f0')+'">'+(ch?ch.emoji:'👤')+'</div><div><div class="pv-nm">'+esc(l.name)+'</div><div class="pvb">'+esc(l.text)+eB+'</div></div></div>';}else if(l.type==='narration')h+='<div class="pv-nr"><div class="ko">'+esc(l.text)+'</div>'+(l.en?'<div class="en">'+esc(l.en)+'</div>':'')+'</div>';else if(l.type==='system')h+='<div class="pv-s">'+esc(l.text)+'</div>';else if(l.type==='part')h+='<div class="pv-d"><span>'+esc(l.text)+'</span></div>';});pv.innerHTML=h;}
+    function updatePvOnly(){const pv=$('sePvPhone');$('seCount').textContent=lines.length;if(!lines.length){pv.innerHTML='<div class="se-empty">대사를 추가하면 미리보기가 표시됩니다.</div>';return;}let h='';lines.forEach(l=>{const eB=l.en?'<div class="en">'+esc(l.en)+'</div>':'';const tB=l.time?'<div style="font-size:.55rem;color:#aaa;margin-top:1px;">'+esc(l.time)+'</div>':'';
+        if(l.type==='my')h+='<div class="pv-my" style="align-items:flex-end;gap:3px;">'+tB+'<div class="pvb">'+esc(l.text)+eB+'</div></div>';else if(l.type==='other'){const ch=chars.find(c=>c.name===l.name);h+='<div class="pv-o"><div class="pv-av" style="background:'+(ch?ch.color:'#e2e8f0')+'">'+(ch?ch.emoji:'👤')+'</div><div><div class="pv-nm">'+esc(l.name)+'</div><div class="pvb">'+esc(l.text)+eB+'</div></div>'+(l.time?'<div style="font-size:.55rem;color:#aaa;align-self:flex-end;">'+esc(l.time)+'</div>':'')+'</div>';}else if(l.type==='narration')h+='<div class="pv-nr"><div class="ko">'+esc(l.text)+'</div>'+(l.en?'<div class="en">'+esc(l.en)+'</div>':'')+'</div>';else if(l.type==='system')h+='<div class="pv-s">'+esc(l.text)+'</div>';else if(l.type==='part')h+='<div class="pv-d"><span>'+esc(l.text)+'</span></div>';});pv.innerHTML=h;}
 
     // 채팅에서 불러오기
-    function loadFromChat(){const ca=document.getElementById('chatArea');if(!ca||!ca.children.length)return;lines=[];for(const el of ca.children){let type='',name='',text='',en='',hidden='';if(el.classList.contains('my-msg-wrapper'))type='my';else if(el.classList.contains('other-msg-wrapper')){type='other';name=el.dataset.name||'';}else if(el.classList.contains('narration-msg')){type='narration';const koEl=el.querySelector('.narration-ko'),enEl=el.querySelector('.narration-en');text=koEl?koEl.innerText.trim():'';en=enEl?enEl.innerText.trim():'';lines.push({type,name:'',text,en,hidden:''});continue;}else if(el.classList.contains('system-msg')){type='system';text=el.innerText.trim();lines.push({type,name:'',text,en:'',hidden:''});continue;}else if(el.classList.contains('date-divider')){type='part';const sp=el.querySelector('span');text=sp?sp.innerText.trim():'';lines.push({type,name:'',text,en:'',hidden:''});continue;}else continue;const mt=el.querySelector('.main-text'),ht=el.querySelector('.hover-text');if(mt){const enEl=mt.querySelector('.msg-en');if(enEl)en=enEl.innerText.trim();const cl=mt.cloneNode(true);cl.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());text=cl.innerText.trim();}if(ht){const cl2=ht.cloneNode(true);cl2.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());hidden=cl2.innerText.trim();}if(type==='other'&&name&&!chars.find(c=>c.name===name)){chars.push({name,emoji:'👤',color:COLORS[cIdx%COLORS.length]});cIdx++;}lines.push({type,name,text,en,hidden});}renderChips();renderFormList();updatePv();}
+    function loadFromChat(){const ca=document.getElementById('chatArea');if(!ca||!ca.children.length)return;lines=[];for(const el of ca.children){let type='',name='',text='',en='',hidden='';if(el.classList.contains('my-msg-wrapper'))type='my';else if(el.classList.contains('other-msg-wrapper')){type='other';name=el.dataset.name||'';}else if(el.classList.contains('narration-msg')){type='narration';const koEl=el.querySelector('.narration-ko'),enEl=el.querySelector('.narration-en');text=koEl?koEl.innerText.trim():'';en=enEl?enEl.innerText.trim():'';lines.push({type,name:'',text,en,hidden:'',time:el.dataset.timestamp||''});continue;}else if(el.classList.contains('system-msg')){type='system';text=el.innerText.trim();lines.push({type,name:'',text,en:'',hidden:'',time:''});continue;}else if(el.classList.contains('date-divider')){type='part';const sp=el.querySelector('span');text=sp?sp.innerText.trim():'';lines.push({type,name:'',text,en:'',hidden:'',time:''});continue;}else continue;const mt=el.querySelector('.main-text'),ht=el.querySelector('.hover-text');if(mt){const enEl=mt.querySelector('.msg-en');if(enEl)en=enEl.innerText.trim();const cl=mt.cloneNode(true);cl.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());text=cl.innerText.trim();}if(ht){const cl2=ht.cloneNode(true);cl2.querySelectorAll('.msg-en,.msg-image,.msg-image-error').forEach(k=>k.remove());hidden=cl2.innerText.trim();}if(type==='other'&&name&&!chars.find(c=>c.name===name)){chars.push({name,emoji:'👤',color:COLORS[cIdx%COLORS.length]});cIdx++;}lines.push({type,name,text,en,hidden,time:el.dataset.timestamp||''});}renderChips();renderFormList();updatePv();}
 
     // 초기화
     function reset(){if(!confirm('대본 에디터의 모든 내용을 초기화할까요?'))return;lines=[];chars=[];cIdx=0;curType='my';curChar=null;editIdx=-1;if(dws)dws.innerHTML='';renderChips();renderFormList();if(mode==='drag')renderDrag();updatePv();}
@@ -2467,9 +3070,17 @@ const SE = (function(){
         const ca=document.getElementById('chatArea');
         if(ca)ca.innerHTML='';
         if(typeof window.seCancelEdit==='function')window.seCancelEdit();
+        if(typeof chars!=='undefined'){
+            chars.forEach(function(ch){
+                if(ch.name && !charIcons[ch.name]){
+                    charIcons[ch.name]={src:'', bg:'#74b9ff', initial:ch.emoji||ch.name.charAt(0)};
+                }
+            });
+            if(typeof renderCharIconList==='function') renderCharIconList();
+        }
         lines.forEach(l=>{
             if(typeof window.createMsg==='function')
-                window.createMsg(l.type,l.name||'',l.text,'',l.hidden||'','',{enText:l.en||''});
+               window.createMsg(l.type,l.name||'',l.text,'',l.hidden||'','',{enText:l.en||'',timestamp:l.time||''});
         });
         if(typeof window.updateMsgCount==='function')window.updateMsgCount();
         close();
@@ -2477,7 +3088,7 @@ const SE = (function(){
     function open(){loadFromChat();renderChips();renderFormList();updatePvOnly();$('seOverlay').classList.add('open');}
     function close(){$('seOverlay').classList.remove('open');}
 
-    return{open,close,pick,pickCharI,addChar,rmChar,setMode,formDel,fds,fde,fdd,fdx,textApply,applyToChat,renderChips,reset,openFR,closeFR,frFind,frReplace,frReplaceAll,frNext,frPrev,exportTxt,importTxt,toggleRepl,toggleOpts,toggleHelp,toggleHid,togglePv,flEdit,flKey,flAdd,flSetType,flHid,doFA,doUnwrap,doAddEn};
+    return{open,close,pick,pickCharI,addChar,rmChar,setMode,formDel,fds,fde,fdd,fdx,textApply,applyToChat,renderChips,reset,openFR,closeFR,frFind,frReplace,frReplaceAll,frNext,frPrev,exportTxt,importTxt,toggleRepl,toggleOpts,toggleHelp,toggleHid,togglePv,flEdit,flKey,flAdd,flSetType,flHid,flTime,doFA,doUnwrap,doAddEn};
 })();
 </script>
 
