@@ -721,6 +721,14 @@
             </div>
         </div>
 
+        <h3 style="margin-top:12px; margin-bottom:2px;">📝 지문 스타일</h3>
+        <label>패딩 세로</label>
+        <div class="slider-row"><input type="range" id="narPadV" min="4" max="40" value="16" step="2"><span class="slider-val" id="narPadVVal">16</span></div>
+        <label style="margin-top:4px;">패딩 가로</label>
+        <div class="slider-row"><input type="range" id="narPadH" min="4" max="40" value="20" step="2"><span class="slider-val" id="narPadHVal">20</span></div>
+        <label style="margin-top:4px;">라운딩</label>
+        <div class="slider-row"><input type="range" id="narRadius" min="0" max="20" value="10" step="1"><span class="slider-val" id="narRadiusVal">10</span></div>
+
     </div>
 
     <!-- ━━━ 탭: 테마 ━━━ -->
@@ -1514,6 +1522,12 @@
         ca.appendChild(d); setTimeout(()=>{ca.scrollTop=ca.scrollHeight;},10);
         applyFontSize();
         applySubFonts();
+        // 지문 스타일 적용
+        if(type==='narration'){
+            const npv=$('narPadV').value,nph=$('narPadH').value,nr=$('narRadius').value;
+            d.style.padding=npv+'px '+nph+'px';
+            d.style.borderRadius=nr+'px';
+        }
         updateMsgCount();
 
         resetInputsKeepType();
@@ -2066,8 +2080,8 @@
   margin: 16px 0;
   background: rgba(255,255,255,0.6);
   border: 1px dashed #cbd5e1;
-  border-radius: 10px;
-  padding: 16px 20px;
+  padding: ${$('narPadV').value}px ${$('narPadH').value}px;
+  border-radius: ${$('narRadius').value}px;
   white-space: pre-wrap;
 }
 .narration-msg .narration-ko {
@@ -2367,6 +2381,9 @@ ${bodyIndented}
             otherAvatarInitial: $('otherAvatarInitial').value,
             bubbleShape: $q('input[name="bubbleShape"]:checked').value,
             noTail: $('chkNoTail').checked,
+            narPadV: $('narPadV').value,
+            narPadH: $('narPadH').value,
+            narRadius: $('narRadius').value,
             cbRadius: $('cbRadius').value,
             cbMyCorner: $('cbMyCorner').value,
             cbOtherCorner: $('cbOtherCorner').value,
@@ -2407,6 +2424,9 @@ ${bodyIndented}
         if(d.otherAvatarInitial!=null) $('otherAvatarInitial').value=d.otherAvatarInitial;
         if(d.bubbleShape!=null){ const r=$q(`input[name="bubbleShape"][value="${d.bubbleShape}"]`); if(r)r.checked=true; }
         if(d.noTail!=null) $('chkNoTail').checked=d.noTail;
+        if(d.narPadV!=null) $('narPadV').value=d.narPadV;
+        if(d.narPadH!=null) $('narPadH').value=d.narPadH;
+        if(d.narRadius!=null) $('narRadius').value=d.narRadius;
         if(d.cbRadius!=null) $('cbRadius').value=d.cbRadius;
         if(d.cbMyCorner!=null) $('cbMyCorner').value=d.cbMyCorner;
         if(d.cbOtherCorner!=null) $('cbOtherCorner').value=d.cbOtherCorner;
@@ -2572,6 +2592,16 @@ ${bodyIndented}
         // 커스텀 말풍선 슬라이더
         ['cbRadius','cbMyCorner','cbOtherCorner','cbPadV','cbPadH','cbShadow','cbBorderW'].forEach(id=>$(id).addEventListener('input',applyCustomBubble));
         $('cbBorderColor').addEventListener('input',applyCustomBubble);
+        // 지문 스타일
+        function applyNarStyle(){
+            const pv=$('narPadV').value, ph=$('narPadH').value, r=$('narRadius').value;
+            $('narPadVVal').textContent=pv; $('narPadHVal').textContent=ph; $('narRadiusVal').textContent=r;
+            $qa('#chatArea .narration-msg').forEach(el=>{
+                el.style.padding=pv+'px '+ph+'px';
+                el.style.borderRadius=r+'px';
+            });
+        }
+        ['narPadV','narPadH','narRadius'].forEach(id=>$(id).addEventListener('input',applyNarStyle));
         // 상세 입력 토글
         $('togDetailInput').addEventListener('click',()=>{$('togDetailInput').classList.toggle('open');$('secDetailInput').classList.toggle('open');});
         // 전송 버튼
