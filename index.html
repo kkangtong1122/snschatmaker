@@ -1747,7 +1747,7 @@
 
                         // white-space: pre-wrap이 적용된 클래스를 가진 태그는 무조건 한 줄로 유지
                         // (들여쓰기/줄바꿈이 빈 줄로 렌더링되는 문제 방지)
-                        const preserveClasses=['message','system-msg','main-text','hover-text'];
+                        const preserveClasses=['message','system-msg','main-text','hover-text','narration-msg','narration-ko','narration-en'];
                         const classMatch=tag.match(/class="([^"]*)"/);
                         const tagClasses=classMatch?classMatch[1].split(/\s+/):[];
                         const shouldPreserve=preserveClasses.some(c=>tagClasses.includes(c));
@@ -2080,8 +2080,8 @@
   margin: 16px 0;
   background: rgba(255,255,255,0.6);
   border: 1px dashed #cbd5e1;
-  padding: ${$('narPadV').value}px ${$('narPadH').value}px;
-  border-radius: ${$('narRadius').value}px;
+  padding: ${$('narPadV').value}px ${$('narPadH').value}px !important;
+  border-radius: ${$('narRadius').value}px !important;
   white-space: pre-wrap;
 }
 .narration-msg .narration-ko {
